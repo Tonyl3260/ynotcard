@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Singles Inventory — Ynot Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">YnotCard</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Overview</a></li>
+    <li><a href="inventory.html" class="active">Inventory</a></li>
+    <li><a href="sealed.html">Sealed</a></li>
+    <li><a href="sales.html">Sales Analytics</a></li>
+  </ul>
+  <div class="nav-right"><span class="nav-badge">One Piece TCG</span></div>
+</nav>
+
+<div class="page">
+
+  <div class="section-header" style="margin-bottom:1.5rem;">
+    <div>
+      <h2>Singles inventory</h2>
+      <p style="margin-top:2px;font-size:0.9rem;" id="sub-count">Loading…</p>
+    </div>
+  </div>
+
+  <!-- Summary metrics -->
+  <div class="section">
+    <div class="metrics-grid">
+      <div class="metric-card accent-blue">
+        <div class="metric-label">Total listed value</div>
+        <div class="metric-value blue" id="m-rev">—</div>
+      </div>
+      <div class="metric-card accent-gold">
+        <div class="metric-label">Total est. net</div>
+        <div class="metric-value gold" id="m-net">—</div>
+        <div class="metric-sub">after fees + $1 shipping</div>
+      </div>
+      <div class="metric-card accent-red">
+        <div class="metric-label">Review pricing</div>
+        <div class="metric-value red" id="m-review">—</div>
+        <div class="metric-sub">20%+ above market</div>
+      </div>
+      <div class="metric-card accent-green">
+        <div class="metric-label">Priced OK</div>
+        <div class="metric-value green" id="m-ok">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="section">
+    <div class="controls">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="search" id="search" placeholder="Search card name or set…" />
+      </div>
+      <select id="filter-rarity">
+        <option value="">All rarities</option>
+        <option value="SR">SR</option>
+        <option value="L">L</option>
+        <option value="SEC">SEC</option>
+        <option value="R">R</option>
+        <option value="DON!!">DON!!</option>
+        <option value="PR">PR</option>
+        <option value="UC">UC</option>
+        <option value="C">C</option>
+      </select>
+      <select id="filter-reprice">
+        <option value="">All pricing</option>
+        <option value="review">Review needed</option>
+        <option value="no_data">No market data</option>
+      </select>
+      <select id="sort-by">
+        <option value="price_desc">Price: high → low</option>
+        <option value="price_asc">Price: low → high</option>
+        <option value="pvr_desc">Price vs mkt: highest</option>
+        <option value="net_desc">Net profit: highest</option>
+        <option value="name_asc">Name A → Z</option>
+      </select>
+      <span id="result-count" style="color:var(--muted);font-size:0.9rem;margin-left:4px;"></span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="section">
+    <div class="table-wrap">
+      <table id="inv-table">
+        <thead>
+          <tr>
+            <th style="min-width:220px;">Card name</th>
+            <th>Set</th>
+            <th>Rarity</th>
+            <th>Condition</th>
+            <th class="text-right">Qty</th>
+            <th class="text-right">Your price</th>
+            <th class="text-right">Market price</th>
+            <th class="text-right">vs Market</th>
+            <th class="text-right">Net/sale</th>
+            <th class="text-right">Total listed</th>
+          </tr>
+        </thead>
+        <tbody id="inv-tbody">
+          <tr><td colspan="10" style="text-align:center;color:var(--muted);padding:2rem;">Loading inventory…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="charts.js"></script>
+<script>
+let allSingles = [];
+let chartsBuilt = false;
+
+const fmt = n => n != null ? '$' + n.toFixed(2) : '—';
+const fmtPct = n => n != null ? (n * 100).toFixed(1) + '%' : '—';
+
+function rarityBadge(rarity) {
+  const map = {
+    'SR': 'badge-gold', 'L': 'badge-red', 'SEC': 'badge-purple',
+    'R': 'badge-blue', 'DON!!': 'badge-green', 'PR': 'badge-muted',
+    'UC': 'badge-muted', 'C': 'badge-muted'
+  };
+  return `<span class="badge ${map[rarity] || 'badge-muted'}">${rarity || '—'}</span>`;
+}
+
+function repriceBadge(r) {
+  if (r === 'review')  return `<span class="badge badge-gold">Review</span>`;
+  if (r === 'ok')      return `<span class="badge badge-green">OK</span>`;
+  return `<span class="badge badge-muted">No data</span>`;
+}
+
+function pvrColor(pvr) {
+  if (pvr == null) return 'muted';
+  if (pvr > 1.2)   return 'text-gold';
+  if (pvr < 0.9)   return 'text-red';
+  return 'text-green';
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('inv-tbody');
+  document.getElementById('result-count').textContent = `${data.length} listings`;
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:2rem;">No cards match your filters.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(s => `
+    <tr>
+      <td class="td-name" title="${s.name}">${s.name}</td>
+      <td class="muted" style="font-size:0.85rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${s.set}">${s.set}</td>
+      <td>${rarityBadge(s.rarity)}</td>
+      <td class="muted">${s.condition}</td>
+      <td class="right">${s.qty}</td>
+      <td class="right fw-700">${fmt(s.price)}</td>
+      <td class="right muted">${s.market_price != null ? fmt(s.market_price) : '<span style="color:var(--hint)">—</span>'}</td>
+      <td class="right ${pvrColor(s.price_vs_market)}">${s.price_vs_market != null ? fmtPct(s.price_vs_market) : '<span style="color:var(--hint)">—</span>'}</td>
+      <td class="right">${fmt(s.net_per_sale)}</td>
+      <td class="right">${fmt(s.total_listed_value)}</td>
+    </tr>
+  `).join('');
+}
+
+function applyFilters() {
+  const search  = document.getElementById('search').value.toLowerCase();
+  const rarity  = document.getElementById('filter-rarity').value;
+  const reprice = document.getElementById('filter-reprice').value;
+  const sortBy  = document.getElementById('sort-by').value;
+
+  let data = allSingles.filter(s => {
+    if (search  && !s.name.toLowerCase().includes(search) && !s.set.toLowerCase().includes(search)) return false;
+    if (rarity  && s.rarity !== rarity) return false;
+    if (reprice && s.reprice !== reprice) return false;
+    return true;
+  });
+
+  const sortFns = {
+    'price_desc': (a,b) => b.price - a.price,
+    'price_asc':  (a,b) => a.price - b.price,
+    'pvr_desc':   (a,b) => (b.price_vs_market||0) - (a.price_vs_market||0),
+    'net_desc':   (a,b) => b.net_per_sale - a.net_per_sale,
+    'name_asc':   (a,b) => a.name.localeCompare(b.name),
+  };
+  data.sort(sortFns[sortBy] || sortFns['price_desc']);
+  renderTable(data);
+}
+
+['search','filter-rarity','filter-reprice','sort-by'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyFilters);
+  document.getElementById(id).addEventListener('change', applyFilters);
+});
+
+fetch('inventory.json')
+  .then(r => r.json())
+  .then(data => {
+    allSingles = data.singles;
+    const s = data.summary;
+    document.getElementById('sub-count').textContent = `${s.total_singles_listings} listings · ${s.total_singles_copies} total copies`;
+    document.getElementById('m-rev').textContent     = '$' + s.total_singles_revenue.toLocaleString();
+    document.getElementById('m-net').textContent     = '$' + s.total_singles_net.toLocaleString();
+    document.getElementById('m-review').textContent  = s.reprice_review_count;
+    document.getElementById('m-ok').textContent      = allSingles.filter(s => s.reprice === 'ok').length;
+
+    applyFilters();
+  });
+</script>
+</body>
+</html>
