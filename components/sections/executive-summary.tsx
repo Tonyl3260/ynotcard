@@ -1,0 +1,215 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { Activity, AlertTriangle, Bot, Package, TrendingUp } from 'lucide-react'
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+type Insight = {
+  Icon: typeof TrendingUp
+  iconBg: string
+  iconColor: string
+  tag: string
+  tagColor: string
+  headline: string
+  narrative: React.ReactNode
+  metric: string
+  metricColor: string
+}
+
+// ── Highlight helper ──────────────────────────────────────────────────────────
+
+function Hi({ children, color = 'text-primary-400' }: { children: React.ReactNode; color?: string }) {
+  return <span className={`${color} font-semibold`}>{children}</span>
+}
+
+// ── Insights ──────────────────────────────────────────────────────────────────
+
+const INSIGHTS: Insight[] = [
+  {
+    Icon:        TrendingUp,
+    iconBg:      'rgba(59,130,246,0.12)',
+    iconColor:   '#3B82F6',
+    tag:         'Portfolio',
+    tagColor:    'text-primary-400 bg-primary-500/10 border-primary-500/25',
+    headline:    '$6,302 listed value with 81% net margin after fees',
+    narrative: (
+      <>
+        Current inventory spans <Hi>131 active listings</Hi> (121 singles + 10 sealed)
+        with <Hi>$6,302</Hi> in total listed value. After TCG Player fees, the portfolio
+        nets <Hi>$5,127</Hi>, an 81.4% retention rate. SR and Legendary cards are the
+        primary value drivers at <Hi>$2,894</Hi> combined.
+      </>
+    ),
+    metric:      '$6,302',
+    metricColor: 'text-primary-400',
+  },
+  {
+    Icon:        Package,
+    iconBg:      'rgba(16,185,129,0.12)',
+    iconColor:   '#10B981',
+    tag:         'Breakdown',
+    tagColor:    'text-emerald-400 bg-emerald-500/10 border-emerald-500/25',
+    headline:    'SR cards lead with 47 listings and $1,874 in value',
+    narrative: (
+      <>
+        Super Rare cards dominate inventory with <Hi color="text-emerald-400">$1,874</Hi> across
+        47 listings, followed by Legendary at <Hi color="text-emerald-400">$1,020</Hi> (13 listings).
+        Top sets by value: Promo Cards <Hi color="text-emerald-400">$597</Hi>, Premium Booster Best{' '}
+        <Hi color="text-emerald-400">$523</Hi>, and Fist of Divine Speed <Hi color="text-emerald-400">$405</Hi>.
+      </>
+    ),
+    metric:      '47 SRs',
+    metricColor: 'text-emerald-400',
+  },
+  {
+    Icon:        Activity,
+    iconBg:      'rgba(251,191,36,0.12)',
+    iconColor:   '#FBBF24',
+    tag:         'Risk',
+    tagColor:    'text-amber-400 bg-amber-400/10 border-amber-400/25',
+    headline:    '67 of 121 singles (55%) flagged for reprice review',
+    narrative: (
+      <>
+        Over half your singles are priced above market. Notable outliers:{' '}
+        <Hi color="text-amber-400">Monkey.D.Luffy AA (OP11-040)</Hi> listed at $99.95 vs
+        $44.47 market (125% above), and{' '}
+        <Hi color="text-amber-400">Nefeltari Vivi AA</Hi> at $44.95 vs $25.86 market (74% above).
+        Aligning to market could significantly improve sell-through.
+      </>
+    ),
+    metric:      '67 items',
+    metricColor: 'text-amber-400',
+  },
+  {
+    Icon:        AlertTriangle,
+    iconBg:      'rgba(239,68,68,0.12)',
+    iconColor:   '#EF4444',
+    tag:         'Alert',
+    tagColor:    'text-red-400 bg-red-500/10 border-red-500/25',
+    headline:    'Sanji AA (OP02-026) is your highest-value item at $229.95',
+    narrative: (
+      <>
+        <Hi color="text-red-400">Sanji Alternate Art (OP02-026 L)</Hi> is your most valuable
+        single at $229.95 listed vs $166.33 market (38% above). With only{' '}
+        <Hi>1 copy</Hi> in stock, this represents high single-item concentration risk.
+        Consider sourcing more copies or adjusting price toward market to accelerate the sale.
+      </>
+    ),
+    metric:      '$229.95',
+    metricColor: 'text-red-400',
+  },
+]
+
+const EASE = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
+export function ExecutiveSummary() {
+  return (
+    <section id="summary" className="px-6 py-10 max-w-6xl mx-auto">
+      {/* Gradient border wrapper */}
+      <div
+        className="p-px rounded-[16px]"
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(59,130,246,0.45) 0%, rgba(6,182,212,0.15) 45%, rgba(139,92,246,0.4) 100%)',
+        }}
+      >
+        <div className="rounded-[15px] bg-canvas-800/95 overflow-hidden">
+
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]"
+            style={{
+              background:
+                'linear-gradient(90deg, rgba(59,130,246,0.06) 0%, rgba(139,92,246,0.04) 100%)',
+            }}
+          >
+            <div className="flex items-center gap-3">
+              {/* Glow orb */}
+              <div className="relative h-8 w-8 rounded-lg flex items-center justify-center"
+                style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)' }}>
+                <Bot size={15} strokeWidth={2} style={{ color: '#8B5CF6' }} />
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-violet-400 border-2 border-canvas-800 animate-pulse" />
+              </div>
+              <div>
+                <h2 className="text-[0.95rem] font-semibold text-slate-100 leading-none">
+                  Executive Summary
+                </h2>
+                <p className="text-[0.68rem] text-slate-500 mt-0.5">Month-to-date · One Piece TCG portfolio</p>
+              </div>
+            </div>
+
+            {/* AI badge */}
+            <span
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.06em] border"
+              style={{
+                color: '#A78BFA',
+                background: 'rgba(139,92,246,0.1)',
+                borderColor: 'rgba(139,92,246,0.3)',
+              }}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
+              AI-Generated · Mock data
+            </span>
+          </div>
+
+          {/* Insight cards */}
+          <div className="divide-y divide-white/[0.04]">
+            {INSIGHTS.map((ins, i) => (
+              <motion.div
+                key={ins.headline}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
+                className="flex items-start gap-4 px-6 py-5 hover:bg-white/[0.015] transition-colors duration-150"
+              >
+                {/* Icon */}
+                <div
+                  className="h-9 w-9 shrink-0 rounded-xl flex items-center justify-center mt-0.5"
+                  style={{ background: ins.iconBg, border: `1px solid ${ins.iconColor}30` }}
+                >
+                  <ins.Icon size={16} strokeWidth={2.2} style={{ color: ins.iconColor }} />
+                </div>
+
+                {/* Body */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <span
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.07em] border ${ins.tagColor}`}
+                    >
+                      {ins.tag}
+                    </span>
+                    <p className="text-[0.88rem] font-semibold text-slate-100">{ins.headline}</p>
+                  </div>
+                  <p className="text-[0.78rem] text-slate-400 leading-relaxed">{ins.narrative}</p>
+                </div>
+
+                {/* Metric */}
+                <div className="shrink-0 text-right hidden sm:block">
+                  <p className={`text-[1.4rem] font-bold tabular-nums leading-none ${ins.metricColor}`}>
+                    {ins.metric}
+                  </p>
+                  <p className="text-[0.6rem] text-slate-600 mt-1 uppercase tracking-wide">vs last mo</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className="px-6 py-3 border-t border-white/[0.04] flex items-center justify-between"
+            style={{ background: 'rgba(0,0,0,0.15)' }}>
+            <p className="text-[0.62rem] text-slate-600">
+              Last analyzed · just now · 4 signals detected
+            </p>
+            <p className="text-[0.62rem] text-slate-600">
+              Live inventory snapshot
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  )
+}
