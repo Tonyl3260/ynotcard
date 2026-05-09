@@ -172,19 +172,19 @@ const TOP_STATES = [
   { state: 'IL', orders: 14, revenue: 339  },
 ]
 
-const STATS: Record<DateRange, { revenue: string; units: number; orders: number; aov: string; revenueD: number | null; unitsD: number | null }> = {
-  '7D':  { revenue: '$1,207',  units: 52,  orders: 30,  aov: '$40.22', revenueD: 1.6,  unitsD: -20.0 },
-  '30D': { revenue: '$5,625',  units: 253, orders: 154, aov: '$36.53', revenueD: 32.5, unitsD: -28.7 },
-  '90D': { revenue: '$11,099', units: 749, orders: 393, aov: '$28.24', revenueD: null, unitsD: null  },
-  '1Y':  { revenue: '$11,099', units: 749, orders: 393, aov: '$28.24', revenueD: null, unitsD: null  },
+const STATS: Record<DateRange, { revenue: string; units: number; orders: number; aov: string }> = {
+  '7D':  { revenue: '$1,207',  units: 52,  orders: 30,  aov: '$40.22' },
+  '30D': { revenue: '$5,625',  units: 253, orders: 154, aov: '$36.53' },
+  '90D': { revenue: '$11,099', units: 749, orders: 393, aov: '$28.24' },
+  '1Y':  { revenue: '$11,099', units: 749, orders: 393, aov: '$28.24' },
 }
 
 const TOP_SETS = [
-  { name: 'One Piece Promotion Cards',           units: 26, revenue: 597, margin: 81.5, trend:  5.2 },
-  { name: 'Premium Booster The Best',            units: 28, revenue: 523, margin: 79.9, trend:  3.8 },
-  { name: 'Premium Booster The Best Vol. 2',     units: 33, revenue: 430, margin: 76.2, trend:  2.1 },
-  { name: 'A Fist of Divine Speed',              units: 10, revenue: 405, margin: 84.6, trend:  8.4 },
-  { name: "Adventure on Kami's Island",          units: 11, revenue: 393, margin: 84.1, trend:  6.7 },
+  { name: 'One Piece Promotion Cards',       units: 26, revenue: 597, margin: 81.5 },
+  { name: 'Premium Booster The Best',        units: 28, revenue: 523, margin: 79.9 },
+  { name: 'Premium Booster The Best Vol. 2', units: 33, revenue: 430, margin: 76.2 },
+  { name: 'A Fist of Divine Speed',          units: 10, revenue: 405, margin: 84.6 },
+  { name: "Adventure on Kami's Island",      units: 11, revenue: 393, margin: 84.1 },
 ]
 
 // ── Shared primitives ─────────────────────────────────────────────────────────
@@ -270,24 +270,18 @@ function DateFilter({ value, onChange }: { value: DateRange; onChange: (r: DateR
 
 function StatsStrip({ range }: { range: DateRange }) {
   const s = STATS[range]
-  const items: { label: string; value: string; delta: number | null }[] = [
-    { label: 'Revenue',    value: s.revenue,                  delta: s.revenueD },
-    { label: 'Items Sold', value: s.units.toLocaleString(),   delta: s.unitsD   },
-    { label: 'Orders',     value: s.orders.toLocaleString(),  delta: null       },
-    { label: 'Avg Order',  value: s.aov,                      delta: null       },
+  const items = [
+    { label: 'Revenue',    value: s.revenue               },
+    { label: 'Items Sold', value: s.units.toLocaleString() },
+    { label: 'Orders',     value: s.orders.toLocaleString() },
+    { label: 'Avg Order',  value: s.aov                   },
   ]
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-      {items.map(({ label, value, delta }) => (
+      {items.map(({ label, value }) => (
         <Card key={label} className="px-4 py-3">
           <p className="text-[0.62rem] font-bold uppercase tracking-[0.09em] text-slate-500 mb-1">{label}</p>
           <p className="text-[1.2rem] font-bold tabular-nums text-slate-100 leading-none">{value}</p>
-          {delta !== null && (
-            <p className={cn('text-[0.68rem] font-semibold mt-1.5 flex items-center gap-1', delta >= 0 ? 'text-emerald-400' : 'text-red-400')}>
-              {delta >= 0 ? <TrendingUp size={10} strokeWidth={2.5} /> : <TrendingDown size={10} strokeWidth={2.5} />}
-              {Math.abs(delta)}% vs prev
-            </p>
-          )}
         </Card>
       ))}
     </div>
@@ -352,53 +346,32 @@ function TopSetsTable() {
     <Card className="p-5 h-full">
       <WidgetTitle>Top Sets by Listed Value</WidgetTitle>
       <div className="overflow-x-auto -mx-1 px-1">
-      {/* Header */}
-      <div className="grid gap-3 pb-2 border-b border-white/[0.05] mb-1 min-w-[420px]"
-        style={{ gridTemplateColumns: '1fr 60px 80px 60px 56px' }}>
-        {['Set', 'Copies', 'Value', 'Margin', 'Trend'].map(h => (
-          <p key={h} className="text-[0.6rem] font-bold uppercase tracking-[0.08em] text-slate-600">{h}</p>
-        ))}
-      </div>
-      {/* Rows */}
-      <div className="space-y-0">
-        {TOP_SETS.map((s, i) => (
-          <div
-            key={s.name}
-            className="grid items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0 min-w-[420px]"
-            style={{ gridTemplateColumns: '1fr 60px 80px 60px 56px' }}
-          >
-            {/* Set name */}
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
+        <div className="grid gap-3 pb-2 border-b border-white/[0.05] mb-1 min-w-[360px]"
+          style={{ gridTemplateColumns: '1fr 60px 80px 64px' }}>
+          {['Set', 'Copies', 'Value', 'Margin'].map(h => (
+            <p key={h} className="text-[0.6rem] font-bold uppercase tracking-[0.08em] text-slate-600">{h}</p>
+          ))}
+        </div>
+        <div className="space-y-0">
+          {TOP_SETS.map((s, i) => (
+            <div
+              key={s.name}
+              className="grid items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0 min-w-[360px]"
+              style={{ gridTemplateColumns: '1fr 60px 80px 64px' }}
+            >
+              <div className="min-w-0 flex items-center gap-2">
                 <span className="h-5 w-5 rounded shrink-0 flex items-center justify-center text-[0.6rem] font-bold bg-primary-500/10 text-primary-400 border border-primary-500/20">
                   {i + 1}
                 </span>
                 <p className="text-[0.8rem] font-medium text-slate-200 truncate">{s.name}</p>
               </div>
+              <p className="text-[0.8rem] tabular-nums text-slate-300">{s.units}</p>
+              <p className="text-[0.8rem] tabular-nums font-semibold text-slate-100">${s.revenue.toLocaleString()}</p>
+              <p className="text-[0.8rem] tabular-nums text-emerald-400">{s.margin}%</p>
             </div>
-            {/* Units */}
-            <p className="text-[0.8rem] tabular-nums text-slate-300">{s.units}</p>
-            {/* Revenue */}
-            <p className="text-[0.8rem] tabular-nums font-semibold text-slate-100">
-              ${s.revenue.toLocaleString()}
-            </p>
-            {/* Margin */}
-            <p className="text-[0.8rem] tabular-nums text-emerald-400">{s.margin}%</p>
-            {/* Trend */}
-            <div className={cn(
-              'flex items-center gap-1 text-[0.72rem] font-semibold',
-              s.trend >= 0 ? 'text-emerald-400' : 'text-red-400',
-            )}>
-              {s.trend >= 0
-                ? <TrendingUp size={11} strokeWidth={2.5} className="shrink-0" />
-                : <TrendingDown size={11} strokeWidth={2.5} className="shrink-0" />
-              }
-              {Math.abs(s.trend)}%
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      </div>{/* /overflow-x-auto */}
     </Card>
   )
 }

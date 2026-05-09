@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Activity, AlertTriangle, Bot, Package, TrendingUp } from 'lucide-react'
+import { Activity, AlertTriangle, BarChart2, Package, TrendingUp } from 'lucide-react'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -128,9 +128,8 @@ export function ExecutiveSummary() {
             <div className="flex items-center gap-3">
               {/* Glow orb */}
               <div className="relative h-8 w-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)' }}>
-                <Bot size={15} strokeWidth={2} style={{ color: '#8B5CF6' }} />
-                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-violet-400 border-2 border-canvas-800 animate-pulse" />
+                style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.25)' }}>
+                <BarChart2 size={15} strokeWidth={2} style={{ color: '#60A5FA' }} />
               </div>
               <div>
                 <h2 className="text-[0.95rem] font-semibold text-slate-100 leading-none">
@@ -140,17 +139,10 @@ export function ExecutiveSummary() {
               </div>
             </div>
 
-            {/* AI badge */}
-            <span
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.06em] border"
-              style={{
-                color: '#A78BFA',
-                background: 'rgba(139,92,246,0.1)',
-                borderColor: 'rgba(139,92,246,0.3)',
-              }}
+            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.06em] border"
+              style={{ color: '#60A5FA', background: 'rgba(59,130,246,0.08)', borderColor: 'rgba(59,130,246,0.2)' }}
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
-              AI-Generated · Mock data
+              Jan – Apr 2026
             </span>
           </div>
 
@@ -191,7 +183,7 @@ export function ExecutiveSummary() {
                   <p className={`text-[1.4rem] font-bold tabular-nums leading-none ${ins.metricColor}`}>
                     {ins.metric}
                   </p>
-                  <p className="text-[0.6rem] text-slate-600 mt-1 uppercase tracking-wide">vs last mo</p>
+                  <p className="text-[0.6rem] text-slate-600 mt-1 uppercase tracking-wide">current</p>
                 </div>
               </motion.div>
             ))}
@@ -201,10 +193,10 @@ export function ExecutiveSummary() {
           <div className="px-6 py-3 border-t border-white/[0.04] flex items-center justify-between"
             style={{ background: 'rgba(0,0,0,0.15)' }}>
             <p className="text-[0.62rem] text-slate-600">
-              Last analyzed · just now · 4 signals detected
+              Based on Jan – Apr 2026 TCGPlayer sales data
             </p>
             <p className="text-[0.62rem] text-slate-600">
-              Live inventory snapshot
+              Inventory snapshot
             </p>
           </div>
 
