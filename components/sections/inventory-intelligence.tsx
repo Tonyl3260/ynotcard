@@ -1,389 +1,192 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
-import { AlertTriangle, Package, TrendingDown, Zap } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+import { ArrowUp, ArrowDown } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import inventoryData from '@/inventory.json'
 
-// ── Theme ─────────────────────────────────────────────────────────────────────
+// ── Types ──────────────────────────────────────────────────────────────────────
 
-const C = {
-  grid:  'rgba(255,255,255,0.05)',
-  axis:  '#475569',
-  blue:  '#3B82F6',
-  gold:  '#FBBF24',
-  green: '#10B981',
-  red:   '#EF4444',
-} as const
+type SortKey = 'price' | 'total_listed_value' | 'name' | 'qty'
+type SortDir = 'asc' | 'desc'
 
-const EASE = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
+const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: 'price',              label: 'Price'       },
+  { key: 'total_listed_value', label: 'Total Value' },
+  { key: 'name',               label: 'Name'        },
+  { key: 'qty',                label: 'Qty'         },
+]
 
-const AXIS_PROPS = {
-  tick: { fill: C.axis, fontSize: 11 },
-  axisLine: false as const,
-  tickLine: false as const,
+// ── Rarity styling ────────────────────────────────────────────────────────────
+
+const RARITY_STYLE: Record<string, { label: string; color: string; bg: string }> = {
+  'L':     { label: 'L',   color: '#FBBF24', bg: 'rgba(251,191,36,0.12)'  },
+  'SEC':   { label: 'SEC', color: '#22D3EE', bg: 'rgba(34,211,238,0.12)'  },
+  'SR':    { label: 'SR',  color: '#A78BFA', bg: 'rgba(167,139,250,0.12)' },
+  'PR':    { label: 'PR',  color: '#60A5FA', bg: 'rgba(96,165,250,0.12)'  },
+  'R':     { label: 'R',   color: '#34D399', bg: 'rgba(52,211,153,0.12)'  },
+  'UC':    { label: 'UC',  color: '#94A3B8', bg: 'rgba(148,163,184,0.10)' },
+  'C':     { label: 'C',   color: '#64748B', bg: 'rgba(100,116,139,0.10)' },
+  'DON!!': { label: 'DON', color: '#F87171', bg: 'rgba(248,113,113,0.12)' },
 }
 
-// ── Mock data ─────────────────────────────────────────────────────────────────
-
-const LOW_STOCK = [
-  { name: 'Sanji AA',                 sku: 'OP02-026', stock: 1, threshold: 3, urgent: true  },
-  { name: 'Boa Hancock AA',           sku: 'OP14-112', stock: 1, threshold: 3, urgent: true  },
-  { name: 'Monkey.D.Luffy SEC AA',    sku: 'OP15-119', stock: 1, threshold: 3, urgent: true  },
-  { name: 'Nico Robin Parallel',      sku: 'OP09-062', stock: 1, threshold: 3, urgent: false },
-  { name: 'Roronoa Zoro AA',          sku: 'EB04-007', stock: 1, threshold: 3, urgent: false },
-  { name: 'Monkey.D.Luffy AA',        sku: 'OP11-040', stock: 2, threshold: 4, urgent: false },
-]
-
-const FORECAST_DATA = Array.from({ length: 31 }, (_, i) => ({
-  day: i === 0 ? 'Now' : i % 5 === 0 ? `D${i}` : '',
-  label: `Day ${i}`,
-  stock: Math.max(0, Math.round(18 - 0.45 * i + Math.sin(i * 0.4) * 1.2)),
-}))
-
-const AGING_DATA = [
-  { bucket: '0–30 days',  pct: 42, color: C.green },
-  { bucket: '31–60 days', pct: 28, color: C.blue  },
-  { bucket: '61–90 days', pct: 18, color: C.gold  },
-  { bucket: '90+ days',   pct: 12, color: C.red   },
-]
-
-const HEATMAP_PRODUCTS = [
-  { name: 'Ace&Sabo&Luffy AA', weeks: [8, 9, 7,  6] },
-  { name: 'Rob Lucci Promo',   weeks: [5, 6, 7,  8] },
-  { name: 'DON!! Nami PB2',    weeks: [4, 5, 5,  6] },
-  { name: 'Helmeppo AA',       weeks: [3, 4, 3,  4] },
-  { name: 'Kuzan Parallel',    weeks: [6, 5, 7,  6] },
-  { name: 'Franky Parallel',   weeks: [2, 3, 2,  4] },
-  { name: 'Benn.Beckman SR',   weeks: [3, 2, 4,  3] },
-  { name: 'Sanji OP10-005',    weeks: [4, 4, 5,  4] },
-]
-
-const RESTOCK_ACTIONS = [
-  {
-    Icon: Zap,
-    color: C.red,
-    bg: 'rgba(239,68,68,0.08)',
-    title: 'Reprice: 67 singles above market (55%)',
-    body: 'Monkey.D.Luffy AA (OP11-040) is 125% above market at $99.95 vs $44.47. Aligning to market could significantly improve conversion.',
-  },
-  {
-    Icon: TrendingDown,
-    color: C.gold,
-    bg: 'rgba(251,191,36,0.07)',
-    title: 'Single-copy risk: Sanji AA ($229.95)',
-    body: 'Your most valuable item has only 1 copy. Monitor closely and consider sourcing more or dropping toward the $166 market price.',
-  },
-  {
-    Icon: Package,
-    color: C.blue,
-    bg: 'rgba(59,130,246,0.07)',
-    title: 'Sealed opportunity: Awakening Booster Boxes',
-    body: '2 OP-05 booster boxes listed at $250 each. Strong margin at $215.57 net per box. Consider sourcing more while the set appreciates.',
-  },
-]
-
-// ── Shared primitives ─────────────────────────────────────────────────────────
-
-function Fade({ children, delay = 0, className }: {
-  children: React.ReactNode
-  delay?: number
-  className?: string
-}) {
+function RarityBadge({ rarity }: { rarity: string }) {
+  const s = RARITY_STYLE[rarity] ?? { label: rarity, color: '#94A3B8', bg: 'rgba(148,163,184,0.10)' }
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.5, delay, ease: EASE }}
-      className={className}
+    <span
+      className="inline-block px-1.5 py-0.5 rounded text-[0.58rem] font-bold leading-none"
+      style={{ color: s.color, background: s.bg }}
     >
-      {children}
-    </motion.div>
+      {s.label}
+    </span>
   )
 }
 
-function WidgetTitle({ children, aside }: {
-  children: React.ReactNode
-  aside?: React.ReactNode
-}) {
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+const SINGLES = inventoryData.singles.map((item, i) => ({ ...item, _id: i }))
+const TOTAL_VALUE  = SINGLES.reduce((s, c) => s + c.total_listed_value, 0)
+const TOTAL_COPIES = SINGLES.reduce((s, c) => s + c.qty, 0)
+
+// ── Inventory Table ───────────────────────────────────────────────────────────
+
+function InventoryTable() {
+  const [sortKey, setSortKey] = useState<SortKey>('price')
+  const [sortDir, setSortDir] = useState<SortDir>('desc')
+
+  function selectSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortKey(key)
+      // numeric fields default desc (highest first), name defaults asc
+      setSortDir(key === 'name' ? 'asc' : 'desc')
+    }
+  }
+
+  const sorted = [...SINGLES].sort((a, b) => {
+    let diff = 0
+    if      (sortKey === 'name')               diff = a.name.localeCompare(b.name)
+    else if (sortKey === 'qty')                diff = a.qty - b.qty
+    else if (sortKey === 'price')              diff = a.price - b.price
+    else if (sortKey === 'total_listed_value') diff = a.total_listed_value - b.total_listed_value
+    return sortDir === 'asc' ? diff : -diff
+  })
+
   return (
-    <div className="flex items-center justify-between mb-4">
-      <p className="text-[0.62rem] font-bold uppercase tracking-[0.09em] text-slate-500">
-        {children}
-      </p>
-      {aside}
-    </div>
-  )
-}
-
-// ── 1. Low Stock Warnings ─────────────────────────────────────────────────────
-
-function LowStockPanel() {
-  const sorted = [...LOW_STOCK].sort((a, b) => Number(b.urgent) - Number(a.urgent))
-  return (
-    <Card accent="red" className="p-5 h-full">
-      <WidgetTitle aside={<Badge variant="red" size="sm">{LOW_STOCK.length} items</Badge>}>
-        Low Quantity Singles
-      </WidgetTitle>
-      <div className="space-y-1.5">
-        {sorted.map(item => (
-          <div
-            key={item.sku}
-            className={cn(
-              'flex items-center gap-3 px-3 py-2 rounded-lg border',
-              item.urgent
-                ? 'bg-red-500/[0.06] border-red-500/20'
-                : 'bg-white/[0.02] border-white/[0.05]',
-            )}
-          >
-            <AlertTriangle
-              size={13}
-              strokeWidth={2.5}
-              className={cn('shrink-0', item.urgent ? 'text-red-400' : 'text-amber-400')}
-            />
-            <div className="flex-1 min-w-0">
-              <p className="text-[0.8rem] font-medium text-slate-200 truncate leading-tight">
-                {item.name}
-              </p>
-              <p className="text-[0.62rem] text-slate-500">{item.sku}</p>
-            </div>
-            <div className="shrink-0 text-right">
-              <p className={cn(
-                'text-[0.78rem] font-bold tabular-nums',
-                item.urgent ? 'text-red-400' : 'text-amber-400',
-              )}>
-                {item.stock}/{item.threshold}
-              </p>
-              <div className="h-[3px] w-14 rounded-full bg-white/[0.06] mt-1">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${(item.stock / item.threshold) * 100}%`,
-                    background: item.urgent ? C.red : C.gold,
-                    opacity: 0.75,
-                  }}
-                />
-              </div>
-            </div>
-            <Badge variant={item.urgent ? 'red' : 'gold'} size="sm" className="shrink-0">
-              {item.urgent ? 'Critical' : 'Low'}
-            </Badge>
-          </div>
-        ))}
-      </div>
-    </Card>
-  )
-}
-
-// ── 2. Stock Forecast ─────────────────────────────────────────────────────────
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ForecastTooltip({ active, payload }: any) {
-  if (!active || !payload?.length) return null
-  const d = payload[0].payload
-  return (
-    <div
-      className="rounded-lg border border-white/[0.08] px-3 py-2 text-xs shadow-card"
-      style={{ background: 'rgba(12,21,36,0.94)', backdropFilter: 'blur(12px)' }}
-    >
-      <p className="text-slate-400 mb-1">{d.label}</p>
-      <p className="font-semibold text-slate-100">{payload[0].value} units remaining</p>
-    </div>
-  )
-}
-
-function StockForecast() {
-  return (
-    <Card accent="blue" className="p-5 h-full">
-      <WidgetTitle aside={
-        <span className="text-[0.62rem] text-slate-600 hidden sm:block">Ace & Sabo & Luffy AA</span>
-      }>
-        Stock Forecast · 30 days
-      </WidgetTitle>
-      <div className="h-[200px]">
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={FORECAST_DATA} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
-            <CartesianGrid stroke={C.grid} vertical={false} />
-            <XAxis dataKey="day" {...AXIS_PROPS} />
-            <YAxis {...AXIS_PROPS} />
-            <Tooltip content={<ForecastTooltip />} />
-            <ReferenceLine
-              y={5}
-              stroke={C.red}
-              strokeDasharray="4 3"
-              strokeOpacity={0.5}
-              label={{ value: 'Reorder', fill: C.red, fontSize: 10, position: 'insideTopRight' }}
-            />
-            <Line
-              type="monotone"
-              dataKey="stock"
-              name="Stock"
-              stroke={C.blue}
-              strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4, fill: C.blue, stroke: 'rgba(59,130,246,0.3)', strokeWidth: 6 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </Card>
-  )
-}
-
-// ── 3. Inventory Aging ────────────────────────────────────────────────────────
-
-function InventoryAging() {
-  return (
-    <Card className="p-5 h-full">
-      <WidgetTitle>Inventory Aging</WidgetTitle>
-      <div className="space-y-3">
-        {AGING_DATA.map(({ bucket, pct, color }) => (
-          <div key={bucket}>
-            <div className="flex justify-between mb-1.5">
-              <span className="text-[0.75rem] text-slate-400">{bucket}</span>
-              <span className="text-[0.75rem] font-semibold tabular-nums" style={{ color }}>
-                {pct}%
-              </span>
-            </div>
-            <div className="h-[6px] rounded-full bg-white/[0.06] overflow-hidden">
-              <motion.div
-                className="h-full rounded-full"
-                style={{ background: color, opacity: 0.75 }}
-                initial={{ width: 0 }}
-                whileInView={{ width: `${pct}%` }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.9, ease: 'easeOut', delay: 0.1 }}
-              />
-            </div>
-          </div>
-        ))}
-        <div className="pt-3 border-t border-white/[0.05] space-y-1.5">
-          <div className="flex justify-between text-[0.72rem]">
-            <span className="text-slate-500">Healthy stock (≤60 days)</span>
-            <span className="text-emerald-400 font-semibold">70%</span>
-          </div>
-          <div className="flex justify-between text-[0.72rem]">
-            <span className="text-slate-500">At-risk stock (60+ days)</span>
-            <span className="text-red-400 font-semibold">30%</span>
-          </div>
-        </div>
-      </div>
-    </Card>
-  )
-}
-
-// ── 4. Product Movement Heatmap ───────────────────────────────────────────────
-
-function heatColor(v: number): string {
-  const t = v / 10
-  if (t > 0.75) return `rgba(16,185,129,${0.25 + t * 0.5})`
-  if (t > 0.45) return `rgba(59,130,246,${0.18 + t * 0.4})`
-  if (t > 0.2)  return `rgba(251,191,36,${0.12 + t * 0.35})`
-  return             `rgba(239,68,68,${0.08 + t * 0.3})`
-}
-
-function MovementHeatmap() {
-  const WEEKS = ['W–3', 'W–2', 'W–1', 'W0']
-  return (
-    <Card className="p-5 h-full">
-      <WidgetTitle aside={
-        <div className="flex gap-3 text-[0.6rem] text-slate-500">
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-sm" style={{ background: 'rgba(239,68,68,0.35)', display: 'inline-block' }} />
-            Slow
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-sm" style={{ background: 'rgba(16,185,129,0.6)', display: 'inline-block' }} />
-            Fast
+    <Card accent="blue" className="p-5">
+      {/* Header row */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <p className="text-[0.62rem] font-bold uppercase tracking-[0.09em] text-slate-500">
+          All Singles · {SINGLES.length} listings
+        </p>
+        <div className="flex items-center gap-3">
+          <span className="text-[0.62rem] text-slate-500 tabular-nums">{TOTAL_COPIES} copies</span>
+          <span className="text-[0.62rem] text-slate-500 tabular-nums">
+            ${TOTAL_VALUE.toLocaleString('en-US', { minimumFractionDigits: 2 })} listed
           </span>
         </div>
-      }>
-        Product Movement
-      </WidgetTitle>
-      <div className="overflow-x-auto -mx-1 px-1">
-      <div className="grid gap-1 min-w-[260px]" style={{ gridTemplateColumns: '1fr repeat(4, 34px)' }}>
-        <div />
-        {WEEKS.map(w => (
-          <div key={w} className="text-center text-[0.6rem] text-slate-600 pb-1">{w}</div>
-        ))}
-        {HEATMAP_PRODUCTS.map(({ name, weeks }) => (
-          <React.Fragment key={name}>
-            <div className="text-[0.68rem] text-slate-400 flex items-center truncate pr-2 h-7">
-              {name}
-            </div>
-            {weeks.map((v, i) => (
-              <div
-                key={i}
-                className="h-7 rounded-md flex items-center justify-center text-[0.62rem] font-bold border border-white/[0.04]"
-                style={{
-                  background: heatColor(v),
-                  color: v >= 7 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.45)',
-                }}
-              >
-                {v}
-              </div>
-            ))}
-          </React.Fragment>
-        ))}
       </div>
-      </div>{/* /overflow-x-auto */}
-    </Card>
-  )
-}
 
-// ── 5. Restock Recommendations ────────────────────────────────────────────────
-
-function RestockRecommendations() {
-  return (
-    <Card accent="purple" className="p-5 h-full">
-      <WidgetTitle aside={
-        <span className="flex items-center gap-1.5 text-[0.62rem] text-violet-400 font-medium">
-          <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
-          AI Insights
-        </span>
-      }>
-        Restock Recommendations
-      </WidgetTitle>
-      <div className="space-y-3">
-        {RESTOCK_ACTIONS.map(({ Icon, color, bg, title, body }) => (
-          <div
-            key={title}
-            className="flex gap-3 p-3 rounded-lg border border-white/[0.05]"
-            style={{ background: bg }}
-          >
-            <div
-              className="h-8 w-8 shrink-0 rounded-lg flex items-center justify-center mt-0.5"
-              style={{ background: color + '22', border: `1px solid ${color}33` }}
+      {/* Sort controls */}
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="text-[0.62rem] text-slate-600 uppercase tracking-widest font-bold mr-1">Sort</span>
+        {SORT_OPTIONS.map(({ key, label }) => {
+          const active = sortKey === key
+          return (
+            <button
+              key={key}
+              onClick={() => selectSort(key)}
+              className={cn(
+                'flex items-center gap-1 px-2.5 py-1 rounded-md text-[0.7rem] font-medium transition-all',
+                active
+                  ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
+                  : 'bg-white/[0.04] text-slate-500 border border-white/[0.06] hover:text-slate-300 hover:bg-white/[0.07]',
+              )}
             >
-              <Icon size={14} strokeWidth={2.2} style={{ color }} />
-            </div>
-            <div>
-              <p className="text-[0.8rem] font-semibold text-slate-100 leading-tight mb-0.5">
-                {title}
-              </p>
-              <p className="text-[0.72rem] text-slate-400 leading-relaxed">{body}</p>
-            </div>
-          </div>
-        ))}
+              {label}
+              {active && (
+                sortDir === 'asc'
+                  ? <ArrowUp size={11} strokeWidth={2.5} />
+                  : <ArrowDown size={11} strokeWidth={2.5} />
+              )}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Table */}
+      <div className="overflow-y-auto max-h-[520px]">
+        <table className="w-full border-collapse text-left">
+          <thead>
+            <tr style={{ background: '#0C1524' }} className="sticky top-0">
+              <th className="py-2 pl-3 pr-2 w-8">
+                <span className="text-[0.58rem] font-bold uppercase tracking-widest text-slate-600">#</span>
+              </th>
+              <th className="py-2 px-2">
+                <span className="text-[0.58rem] font-bold uppercase tracking-widest text-slate-600">Name</span>
+              </th>
+              <th className="py-2 px-2 w-14 text-right">
+                <span className="text-[0.58rem] font-bold uppercase tracking-widest text-slate-600">Rarity</span>
+              </th>
+              <th className="py-2 px-2 w-12 text-right">
+                <span className="text-[0.58rem] font-bold uppercase tracking-widest text-slate-600">Qty</span>
+              </th>
+              <th className="py-2 px-2 w-24 text-right">
+                <span className="text-[0.58rem] font-bold uppercase tracking-widest text-slate-600">Price</span>
+              </th>
+              <th className="py-2 pl-2 pr-3 w-24 text-right">
+                <span className="text-[0.58rem] font-bold uppercase tracking-widest text-slate-600">Total</span>
+              </th>
+            </tr>
+            <tr style={{ background: '#0C1524' }}>
+              <td colSpan={6} className="h-px bg-white/[0.06] p-0" />
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((item, i) => (
+              <tr
+                key={item._id}
+                className="border-b border-white/[0.03] hover:bg-white/[0.03] transition-colors"
+              >
+                <td className="py-2 pl-3 pr-2 text-[0.62rem] font-bold text-slate-600 tabular-nums align-middle">
+                  {i + 1}
+                </td>
+                <td className="py-2 px-2 align-middle min-w-0 max-w-[1px]">
+                  <p className="text-[0.78rem] font-medium text-slate-200 truncate leading-tight">{item.name}</p>
+                  <p className="text-[0.6rem] text-slate-600 truncate leading-tight">
+                    {item.number ? `${item.number} · ` : ''}{item.set}
+                  </p>
+                </td>
+                <td className="py-2 px-2 text-right align-middle">
+                  <RarityBadge rarity={item.rarity} />
+                </td>
+                <td className="py-2 px-2 text-right align-middle text-[0.7rem] text-slate-500 tabular-nums">
+                  ×{item.qty}
+                </td>
+                <td className={cn(
+                  'py-2 px-2 text-right align-middle text-[0.82rem] font-bold tabular-nums',
+                  item.price >= 100 ? 'text-primary-400' : item.price >= 50 ? 'text-amber-400' : 'text-slate-200',
+                )}>
+                  ${item.price.toFixed(2)}
+                </td>
+                <td className="py-2 pl-2 pr-3 text-right align-middle text-[0.72rem] text-slate-400 tabular-nums">
+                  ${item.total_listed_value.toFixed(2)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </Card>
   )
 }
 
 // ── Section ───────────────────────────────────────────────────────────────────
+
+const EASE = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
 
 export function InventoryIntelligence() {
   return (
@@ -392,32 +195,18 @@ export function InventoryIntelligence() {
         <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
         <div>
           <h2 className="text-[1rem] font-semibold text-slate-100">Inventory Intelligence</h2>
-          <p className="text-[0.8rem] text-slate-500 mt-0.5">Low qty · aging · movement · live snapshot</p>
+          <p className="text-[0.8rem] text-slate-500 mt-0.5">Full singles · sortable · live totals</p>
         </div>
       </div>
 
-      {/* Row 1: Low Stock (wide) + Forecast */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
-        <Fade delay={0} className="lg:col-span-3">
-          <LowStockPanel />
-        </Fade>
-        <Fade delay={0.08} className="lg:col-span-2">
-          <StockForecast />
-        </Fade>
-      </div>
-
-      {/* Row 2: Aging + Heatmap + Recommendations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Fade delay={0.06}>
-          <InventoryAging />
-        </Fade>
-        <Fade delay={0.12}>
-          <MovementHeatmap />
-        </Fade>
-        <Fade delay={0.18}>
-          <RestockRecommendations />
-        </Fade>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        <InventoryTable />
+      </motion.div>
     </section>
   )
 }
