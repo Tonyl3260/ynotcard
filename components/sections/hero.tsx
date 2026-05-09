@@ -9,16 +9,17 @@ import { cn } from '@/lib/utils'
 
 function scrollToSummary() {
   const target = document.getElementById('summary')
-  const scrollEl = document.querySelector('main')
+  const scrollEl = document.querySelector('main') as HTMLElement | null
   if (!target || !scrollEl) return
-  const start = scrollEl.scrollTop
-  const end = target.getBoundingClientRect().top - scrollEl.getBoundingClientRect().top + start
+  const el = scrollEl
+  const start = el.scrollTop
+  const end = target.getBoundingClientRect().top - el.getBoundingClientRect().top + start
   const duration = 1200
   const startTime = performance.now()
   function step(now: number) {
     const progress = Math.min((now - startTime) / duration, 1)
     const ease = 1 - Math.pow(1 - progress, 4)
-    scrollEl.scrollTop = start + (end - start) * ease
+    el.scrollTop = start + (end - start) * ease
     if (progress < 1) requestAnimationFrame(step)
   }
   requestAnimationFrame(step)
