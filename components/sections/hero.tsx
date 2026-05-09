@@ -63,11 +63,10 @@ function DashboardPreview() {
         </div>
 
         {/* Metric strip */}
-        <div className="grid grid-cols-3 divide-x divide-white/[0.05] border-b border-white/[0.06]">
+        <div className="grid grid-cols-2 divide-x divide-white/[0.05] border-b border-white/[0.06]">
           {[
-            { label: 'Listed Value', value: '$6,302', color: 'text-primary-400'  },
-            { label: 'Listings',     value: '131',    color: 'text-emerald-400'  },
-            { label: 'Priced OK',    value: '45%',    color: 'text-amber-400'    },
+            { label: 'Listed Value', value: '$6,302', color: 'text-primary-400' },
+            { label: 'Listings',     value: '131',    color: 'text-emerald-400' },
           ].map(({ label, value, color }) => (
             <div key={label} className="px-4 py-3 bg-canvas-800/40">
               <div className={cn('text-[1.05rem] font-bold tabular-nums', color)}>{value}</div>
@@ -201,7 +200,6 @@ export function HeroSection() {
               {[
                 { value: '131',   label: 'Active listings' },
                 { value: '$6.3k', label: 'Listed value'   },
-                { value: '45%',   label: 'Priced OK'       },
               ].map(({ value, label }) => (
                 <div key={label}>
                   <div className="text-lg font-bold text-slate-100 tabular-nums">{value}</div>

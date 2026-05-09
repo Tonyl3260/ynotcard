@@ -15,7 +15,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle, DollarSign, MapPin, Package, TrendingDown } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
@@ -81,12 +81,35 @@ const INVENTORY_DATA = [
   { month: 'May', singles: 145, sealed: 10 },
 ]
 
-const TOP_PRODUCTS = [
-  { name: 'Ace & Sabo & Luffy AA',   detail: 'OP13-007 · SR', units: 6, revenue: 258, color: C.blue  },
-  { name: 'Sanji AA',                detail: 'OP02-026 · L',  units: 1, revenue: 230, color: C.red   },
-  { name: 'Monkey.D.Luffy AA',       detail: 'OP11-040 · L',  units: 2, revenue: 200, color: C.gold  },
-  { name: 'Nefeltari Vivi AA',       detail: 'EB02-026 · SR', units: 3, revenue: 135, color: C.green },
-  { name: 'Monkey.D.Luffy SEC',      detail: 'OP15-119 · SEC',units: 4, revenue: 128, color: C.cyan  },
+const INSIGHTS = [
+  {
+    Icon: MapPin,
+    iconBg: 'bg-primary-500/15',
+    iconColor: 'text-primary-400',
+    border: 'border-l-primary-500',
+    text: 'California leads buyer demand with 69 orders — 17.5% of total sales',
+  },
+  {
+    Icon: TrendingDown,
+    iconBg: 'bg-amber-500/15',
+    iconColor: 'text-amber-400',
+    border: 'border-l-amber-500',
+    text: 'February order volume dropped 68% — lowest period Jan–Apr 2026',
+  },
+  {
+    Icon: Package,
+    iconBg: 'bg-orange-500/15',
+    iconColor: 'text-orange-400',
+    border: 'border-l-orange-500',
+    text: 'Tracked shipping costs peaked week of March 29 at $131 — 3× weekly average',
+  },
+  {
+    Icon: DollarSign,
+    iconBg: 'bg-emerald-500/15',
+    iconColor: 'text-emerald-400',
+    border: 'border-l-emerald-500',
+    text: 'Average order value held steady at $29.20 across all 394 transactions',
+  },
 ]
 
 const REORDER_ALERTS = [
@@ -290,56 +313,30 @@ function InventoryChart() {
   )
 }
 
-// ── 4. Top-Selling Products ───────────────────────────────────────────────────
+// ── 4. Data Insights ─────────────────────────────────────────────────────────
 
-function ProductsTable() {
-  const maxRev = Math.max(...TOP_PRODUCTS.map(p => p.revenue))
+function DataInsights() {
   return (
-    <Card className="p-5 h-full">
-      <WidgetTitle>Top Listings by Value</WidgetTitle>
-      <div className="space-y-2.5">
-        {TOP_PRODUCTS.map((p, i) => (
-          <div key={p.name} className="flex items-center gap-3">
-            {/* Rank badge */}
-            <div
-              className="h-8 w-8 shrink-0 rounded-lg flex items-center justify-center text-xs font-bold"
-              style={{
-                background: p.color + '22',
-                border: `1px solid ${p.color}33`,
-                color: p.color,
-              }}
-            >
-              {i + 1}
+    <Card className="p-5">
+      <div className="flex items-start justify-between mb-4">
+        <WidgetTitle>Data Insights</WidgetTitle>
+        <span className="text-[0.62rem] text-slate-600 leading-none mt-0.5 hidden sm:block">
+          Derived from Jan–Apr 2026 TCGPlayer sales analysis
+        </span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {INSIGHTS.map(({ Icon, iconBg, iconColor, border, text }) => (
+          <div
+            key={text}
+            className={cn(
+              'flex items-start gap-3 px-3 py-3 rounded-lg bg-white/[0.02] border border-white/[0.05] border-l-2',
+              border,
+            )}
+          >
+            <div className={cn('h-7 w-7 shrink-0 rounded-md flex items-center justify-center mt-0.5', iconBg)}>
+              <Icon size={13} strokeWidth={2.2} className={iconColor} />
             </div>
-            {/* Name + detail */}
-            <div className="flex-1 min-w-0">
-              <p className="text-[0.83rem] font-medium text-slate-100 truncate leading-tight">
-                {p.name}
-              </p>
-              <p className="text-[0.65rem] text-slate-500 leading-tight">{p.detail}</p>
-            </div>
-            {/* Stats */}
-            <div className="text-right shrink-0 hidden sm:block">
-              <p className="text-[0.65rem] text-slate-500">{p.units} listed</p>
-            </div>
-            <div className="text-right shrink-0 w-16">
-              <p className="text-[0.83rem] font-semibold text-slate-100 tabular-nums">
-                ${p.revenue.toLocaleString()}
-              </p>
-            </div>
-            {/* Relative bar */}
-            <div className="w-16 shrink-0 hidden md:block">
-              <div className="h-[3px] rounded-full bg-white/[0.06]">
-                <div
-                  className="h-full rounded-full transition-all duration-700"
-                  style={{
-                    width: `${(p.revenue / maxRev) * 100}%`,
-                    background: p.color,
-                    opacity: 0.7,
-                  }}
-                />
-              </div>
-            </div>
+            <p className="text-[0.78rem] text-slate-300 leading-snug">{text}</p>
           </div>
         ))}
       </div>
@@ -430,9 +427,9 @@ export function AnalyticsPreview() {
         </Fade>
       </div>
 
-      {/* Row 3: Top Products (full width) */}
+      {/* Row 3: Data Insights (full width) */}
       <Fade delay={0.04}>
-        <ProductsTable />
+        <DataInsights />
       </Fade>
     </section>
   )
