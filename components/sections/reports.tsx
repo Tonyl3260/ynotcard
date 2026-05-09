@@ -74,7 +74,7 @@ function FuturePlaceholder() {
 
 export function Reports() {
   return (
-    <div className="px-6 py-10 max-w-6xl mx-auto space-y-10">
+    <div className="px-6 pt-8 pb-16 max-w-6xl mx-auto space-y-10">
 
       {/* Page header */}
       <div className="flex flex-wrap items-end justify-between gap-4">

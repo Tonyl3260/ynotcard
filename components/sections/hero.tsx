@@ -7,6 +7,23 @@ import { Card } from '@/components/ui/card'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
+function scrollToSummary() {
+  const target = document.getElementById('summary')
+  const scrollEl = document.querySelector('main')
+  if (!target || !scrollEl) return
+  const start = scrollEl.scrollTop
+  const end = target.getBoundingClientRect().top - scrollEl.getBoundingClientRect().top + start
+  const duration = 1200
+  const startTime = performance.now()
+  function step(now: number) {
+    const progress = Math.min((now - startTime) / duration, 1)
+    const ease = 1 - Math.pow(1 - progress, 4)
+    scrollEl.scrollTop = start + (end - start) * ease
+    if (progress < 1) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+
 // ── Animation ─────────────────────────────────────────────────────────────────
 
 const EASE = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
@@ -161,12 +178,12 @@ export function HeroSection() {
             </motion.p>
 
             <motion.div variants={item} className="flex flex-wrap gap-3">
-              <Link
-                href="#summary"
-                className={cn(buttonVariants({ size: 'lg' }), 'no-underline')}
+              <button
+                onClick={scrollToSummary}
+                className={cn(buttonVariants({ size: 'lg' }))}
               >
                 View Dashboard
-              </Link>
+              </button>
               <Link
                 href="/analytics"
                 className={cn(buttonVariants({ variant: 'secondary', size: 'lg' }), 'no-underline')}
