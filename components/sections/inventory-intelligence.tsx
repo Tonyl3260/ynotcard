@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowUp, ArrowDown } from 'lucide-react'
+import { ArrowUp, ArrowDown, Search } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import inventoryData from '@/inventory.json'
@@ -55,18 +55,27 @@ const TOTAL_COPIES = SINGLES.reduce((s, c) => s + c.qty, 0)
 function InventoryTable() {
   const [sortKey, setSortKey] = useState<SortKey>('price')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
+  const [search, setSearch]   = useState('')
 
   function selectSort(key: SortKey) {
     if (sortKey === key) {
       setSortDir(d => d === 'asc' ? 'desc' : 'asc')
     } else {
       setSortKey(key)
-      // numeric fields default desc (highest first), name defaults asc
       setSortDir(key === 'name' ? 'asc' : 'desc')
     }
   }
 
-  const sorted = [...SINGLES].sort((a, b) => {
+  const query    = search.trim().toLowerCase()
+  const filtered = query
+    ? SINGLES.filter(i =>
+        i.name.toLowerCase().includes(query) ||
+        i.set.toLowerCase().includes(query)  ||
+        (i.number ?? '').toLowerCase().includes(query)
+      )
+    : SINGLES
+
+  const sorted = [...filtered].sort((a, b) => {
     let diff = 0
     if      (sortKey === 'name')               diff = a.name.localeCompare(b.name)
     else if (sortKey === 'qty')                diff = a.qty - b.qty
@@ -80,7 +89,7 @@ function InventoryTable() {
       {/* Header row */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <p className="text-[0.62rem] font-bold uppercase tracking-[0.09em] text-slate-500">
-          All Singles · {SINGLES.length} listings
+          All Singles · {filtered.length}{filtered.length !== SINGLES.length ? `/${SINGLES.length}` : ''} listings
         </p>
         <div className="flex items-center gap-3">
           <span className="text-[0.62rem] text-slate-500 tabular-nums">{TOTAL_COPIES} copies</span>
@@ -88,6 +97,18 @@ function InventoryTable() {
             ${TOTAL_VALUE.toLocaleString('en-US', { minimumFractionDigits: 2 })} listed
           </span>
         </div>
+      </div>
+
+      {/* Search */}
+      <div className="relative mb-3">
+        <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search by name, set, or card number…"
+          className="w-full pl-8 pr-3 py-2 rounded-lg bg-canvas-800/60 border border-white/[0.07] text-[0.78rem] text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-primary-500/50 focus:bg-canvas-800 transition-colors"
+        />
       </div>
 
       {/* Sort controls */}
@@ -194,7 +215,7 @@ export function InventoryIntelligence() {
       <div className="flex items-center gap-2.5 mb-6">
         <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
         <div>
-          <h2 className="text-[1rem] font-semibold text-slate-100">Inventory Intelligence</h2>
+          <h2 className="text-[1rem] font-semibold text-slate-100">Inventory</h2>
           <p className="text-[0.8rem] text-slate-500 mt-0.5">Full singles · sortable · live totals</p>
         </div>
       </div>

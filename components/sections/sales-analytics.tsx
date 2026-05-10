@@ -346,9 +346,9 @@ function TopSetsTable() {
     <Card className="p-5 h-full">
       <WidgetTitle>Top Sets by Listed Value</WidgetTitle>
       <div className="overflow-x-auto -mx-1 px-1">
-        <div className="grid gap-3 pb-2 border-b border-white/[0.05] mb-1 min-w-[360px]"
-          style={{ gridTemplateColumns: '1fr 60px 80px 64px' }}>
-          {['Set', 'Copies', 'Value', 'Margin'].map(h => (
+        <div className="grid gap-3 pb-2 border-b border-white/[0.05] mb-1 min-w-[280px]"
+          style={{ gridTemplateColumns: '1fr 60px 80px' }}>
+          {['Set', 'Copies', 'Value'].map(h => (
             <p key={h} className="text-[0.6rem] font-bold uppercase tracking-[0.08em] text-slate-600">{h}</p>
           ))}
         </div>
@@ -356,8 +356,8 @@ function TopSetsTable() {
           {TOP_SETS.map((s, i) => (
             <div
               key={s.name}
-              className="grid items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0 min-w-[360px]"
-              style={{ gridTemplateColumns: '1fr 60px 80px 64px' }}
+              className="grid items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0 min-w-[280px]"
+              style={{ gridTemplateColumns: '1fr 60px 80px' }}
             >
               <div className="min-w-0 flex items-center gap-2">
                 <span className="h-5 w-5 rounded shrink-0 flex items-center justify-center text-[0.6rem] font-bold bg-primary-500/10 text-primary-400 border border-primary-500/20">
@@ -367,7 +367,6 @@ function TopSetsTable() {
               </div>
               <p className="text-[0.8rem] tabular-nums text-slate-300">{s.units}</p>
               <p className="text-[0.8rem] tabular-nums font-semibold text-slate-100">${s.revenue.toLocaleString()}</p>
-              <p className="text-[0.8rem] tabular-nums text-emerald-400">{s.margin}%</p>
             </div>
           ))}
         </div>
@@ -506,9 +505,6 @@ export function SalesAnalytics() {
         </div>
         <DateFilter value={range} onChange={setRange} />
       </div>
-
-      {/* Tableau banner */}
-      <TableauBanner />
 
       {/* Stats strip */}
       <StatsStrip range={range} />

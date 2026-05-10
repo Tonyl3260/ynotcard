@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Footer } from '@/components/sections/footer'
 
 const NAV = [
   { label: 'Dashboard', href: '/',          Icon: LayoutDashboard },
@@ -133,29 +134,6 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
           <NavItems onNavigate={onClose} />
         </div>
 
-        {/* Footer badge */}
-        <div className="shrink-0 px-4 py-4 border-t border-white/[0.06]">
-          <div className="rounded-lg bg-primary-500/[0.07] border border-primary-500/[0.18] px-3 pt-2.5 pb-3">
-            <div className="flex items-center gap-1.5 mb-2.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-pulse shrink-0" />
-              <span className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-primary-400">One Piece TCG</span>
-            </div>
-            <div className="grid grid-cols-3 gap-1 text-center">
-              <div>
-                <p className="text-[0.8rem] font-bold text-slate-200 leading-none">393</p>
-                <p className="text-[0.55rem] text-slate-500 uppercase tracking-wide mt-0.5">orders</p>
-              </div>
-              <div>
-                <p className="text-[0.8rem] font-bold text-slate-200 leading-none">$11.1k</p>
-                <p className="text-[0.55rem] text-slate-500 uppercase tracking-wide mt-0.5">revenue</p>
-              </div>
-              <div>
-                <p className="text-[0.8rem] font-bold text-slate-200 leading-none">50</p>
-                <p className="text-[0.55rem] text-slate-500 uppercase tracking-wide mt-0.5">states</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </aside>
     </>
   )
@@ -182,17 +160,24 @@ function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
 
       <div className="flex-1" />
 
-      {/* Right: season badge + revenue stat */}
+      {/* Right: One Piece TCG stats */}
       <div className="hidden sm:flex items-center gap-3">
-        <div className="hidden md:block text-right">
-          <p className="text-[0.72rem] font-semibold text-slate-200 leading-none">$11,099</p>
-          <p className="text-[0.55rem] text-slate-500 leading-none mt-0.5">Jan – Apr 2026</p>
+        <div className="rounded-lg bg-primary-500/[0.07] border border-primary-500/[0.18] px-3 pt-2 pb-2">
+          <div className="grid grid-cols-3 gap-3 text-center">
+            <div>
+              <p className="text-[0.8rem] font-bold text-slate-200 leading-none">393</p>
+              <p className="text-[0.55rem] text-slate-500 uppercase tracking-wide mt-0.5">orders</p>
+            </div>
+            <div>
+              <p className="text-[0.8rem] font-bold text-slate-200 leading-none">$11.1k</p>
+              <p className="text-[0.55rem] text-slate-500 uppercase tracking-wide mt-0.5">revenue</p>
+            </div>
+            <div>
+              <p className="text-[0.8rem] font-bold text-slate-200 leading-none">50</p>
+              <p className="text-[0.55rem] text-slate-500 uppercase tracking-wide mt-0.5">states</p>
+            </div>
+          </div>
         </div>
-        <div className="hidden md:block h-5 w-[1px] bg-white/[0.08]" />
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 px-2.5 py-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[0.65rem] font-bold uppercase tracking-[0.07em] text-primary-400">One Piece TCG</span>
-        </span>
       </div>
     </header>
   )
@@ -212,6 +197,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <Topbar onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto">
           {children}
+          <Footer />
         </main>
       </div>
     </div>

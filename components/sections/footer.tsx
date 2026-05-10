@@ -1,19 +1,20 @@
-import { Code2, ExternalLink } from 'lucide-react'
+import { Code2 } from 'lucide-react'
 
-const LINKS = [
-  {
-    href: 'https://github.com',
-    label: 'GitHub',
-    Icon: Code2,
-    external: true,
-  },
-  {
-    href: 'https://linkedin.com',
-    label: 'LinkedIn',
-    Icon: ExternalLink,
-    external: true,
-  },
-]
+function LinkedInIcon({ size = 14 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  )
+}
 
 export function Footer() {
   return (
@@ -29,27 +30,32 @@ export function Footer() {
             Y
           </span>
           <div>
-            <p className="text-[0.78rem] font-semibold text-slate-400">YNotCard</p>
-            <p className="text-[0.62rem] text-slate-600">
-              TCG Portfolio Analytics · Built with Next.js & Recharts
-            </p>
+            <p className="text-[0.78rem] font-semibold text-slate-400">ynotcard TCG Portfolio</p>
           </div>
         </div>
 
         {/* Right - links */}
         <nav aria-label="Footer links" className="flex items-center gap-1">
-          {LINKS.map(({ href, label, Icon, external }) => (
-            <a
-              key={label}
-              href={href}
-              aria-label={label}
-              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.78rem] text-slate-500 border border-transparent hover:text-slate-200 hover:border-white/[0.08] hover:bg-white/[0.04] transition-all duration-150"
-            >
-              <Icon size={14} strokeWidth={1.75} aria-hidden />
-              {label}
-            </a>
-          ))}
+          <a
+            href="https://github.com/Tonyl3260"
+            aria-label="GitHub"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.78rem] text-slate-500 border border-transparent hover:text-slate-200 hover:border-white/[0.08] hover:bg-white/[0.04] transition-all duration-150"
+          >
+            <Code2 size={14} strokeWidth={1.75} aria-hidden />
+            GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/tonylin3260/"
+            aria-label="LinkedIn"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.78rem] text-slate-500 border border-transparent hover:text-slate-200 hover:border-white/[0.08] hover:bg-white/[0.04] transition-all duration-150"
+          >
+            <LinkedInIcon size={14} />
+            LinkedIn
+          </a>
           <span className="ml-2 text-[0.62rem] text-slate-700 select-none">
             © {new Date().getFullYear()}
           </span>
