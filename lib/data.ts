@@ -1,5 +1,5 @@
-import shippingData from '@/shipping.json'
-import inventoryData from '@/inventory.json'
+import shippingData from '../shipping.json'
+import inventoryData from '../inventory.json'
 
 // ── Source-of-truth KPI map ───────────────────────────────────────────────────
 //
