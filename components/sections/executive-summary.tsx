@@ -155,7 +155,7 @@ export function ExecutiveSummary() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
-                className="flex items-start gap-4 px-6 py-5 hover:bg-white/[0.015] transition-colors duration-150"
+                className="flex items-start gap-3 sm:gap-4 px-4 sm:px-6 py-4 sm:py-5 hover:bg-white/[0.015] transition-colors duration-150"
               >
                 {/* Icon */}
                 <div

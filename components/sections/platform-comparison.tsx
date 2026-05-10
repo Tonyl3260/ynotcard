@@ -10,7 +10,7 @@ const PLATFORMS = [
   {
     name: 'TCGPlayer',
     revenue: '$11,099',
-    orders: '394',
+    orders: '393',
     period: 'Jan – Apr 2026',
     live: true,
   },

@@ -18,8 +18,8 @@ function LinkedInIcon({ size = 14 }: { size?: number }) {
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/[0.05] mt-4">
-      <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer className="border-t border-white/[0.05]">
+      <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
         {/* Left - brand */}
         <div className="flex items-center gap-3">
           <span
@@ -56,7 +56,7 @@ export function Footer() {
             <LinkedInIcon size={14} />
             LinkedIn
           </a>
-          <span className="ml-2 text-[0.62rem] text-slate-700 select-none">
+          <span className="ml-2 text-[0.62rem] text-slate-500 select-none">
             © {new Date().getFullYear()}
           </span>
         </nav>

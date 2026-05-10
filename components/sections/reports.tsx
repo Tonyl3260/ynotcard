@@ -85,15 +85,6 @@ export function Reports() {
             <p className="text-[0.8rem] text-slate-500 mt-0.5">Sales analytics · Tableau dashboards · deep-dive analysis</p>
           </div>
         </div>
-        <a
-          href={TABLEAU_SHARE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.78rem] text-slate-400 border border-white/[0.08] hover:text-slate-100 hover:border-white/[0.15] hover:bg-white/[0.04] transition-all duration-150 no-underline"
-        >
-          Open in Tableau
-          <ExternalLink size={12} strokeWidth={2} />
-        </a>
       </div>
 
       {/* Primary report */}
@@ -105,13 +96,24 @@ export function Reports() {
             </p>
             <p className="text-[0.72rem] text-slate-500 mt-0.5">January - April 2026</p>
           </div>
-          <span
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.06em] border"
-            style={{ color: '#60A5FA', background: 'rgba(59,130,246,0.08)', borderColor: 'rgba(59,130,246,0.25)' }}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
-            Tableau Public
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.06em] border"
+              style={{ color: '#60A5FA', background: 'rgba(59,130,246,0.08)', borderColor: 'rgba(59,130,246,0.25)' }}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+              Tableau Public
+            </span>
+            <a
+              href={TABLEAU_SHARE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.78rem] text-slate-400 border border-white/[0.08] hover:text-slate-100 hover:border-white/[0.15] hover:bg-white/[0.04] transition-all duration-150 no-underline"
+            >
+              Open in Tableau
+              <ExternalLink size={12} strokeWidth={2} />
+            </a>
+          </div>
         </div>
         <TableauEmbed />
       </div>

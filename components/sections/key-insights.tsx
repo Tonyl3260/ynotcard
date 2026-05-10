@@ -1,6 +1,6 @@
 'use client'
 
-import { DollarSign, MapPin, Package, TrendingDown } from 'lucide-react'
+import { AlertTriangle, DollarSign, MapPin, Package, TrendingDown } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
@@ -31,7 +31,14 @@ const INSIGHTS = [
     iconBg: 'bg-emerald-500/15',
     iconColor: 'text-emerald-400',
     border: 'border-l-emerald-500',
-    text: 'Average order value held steady at $29.20 across all 394 transactions',
+    text: 'Average order value held steady at $28.24 across all 393 orders',
+  },
+  {
+    Icon: AlertTriangle,
+    iconBg: 'bg-amber-500/15',
+    iconColor: 'text-amber-400',
+    border: 'border-l-amber-500',
+    text: 'Shipping loss rate of 1.8% (7 of 393 orders, $108 total) — within typical benchmarks for low-value trading card parcels',
   },
 ]
 
