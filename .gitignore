@@ -19,8 +19,6 @@ tsconfig.tsbuildinfo
 *.env
 
 # ── Data files (may contain real inventory/business data) ─────────────────────
-inventory.json
-shipping.json
 shipping_jan.json
 shipping_feb.json
 shipping_mar.json
