@@ -45,8 +45,8 @@ const SET_DATA = [
 ]
 const MAX_SET_REV = SET_DATA[0].rev
 
-// Monthly revenue Jan–Apr 2026 (shipping.json)
-const MONTHLY_REV = [943.36, 1015.73, 5192.96, 3946.88]
+// Monthly revenue Jan–May 2026 (shipping.json)
+const MONTHLY_REV = [943.36, 1015.73, 5192.96, 4467.08, 1037.47]
 
 function buildLinePath(data: number[], w: number, h: number, pad: number) {
   const min   = Math.min(...data)
@@ -202,7 +202,7 @@ export function HeroSection() {
               variants={item}
               className="text-[1rem] text-slate-400 leading-relaxed max-w-[460px]"
             >
-              Operational analytics for a multi-channel TCG reselling business. 393 orders, 50 states, $11,099 revenue from Jan to Apr 2026. Real data, refreshed monthly.
+              Operational analytics for a multi-channel TCG reselling business. 458 orders, 50 states, $12,657 revenue from Jan to May 2026. Real data, refreshed monthly.
             </motion.p>
 
             <motion.div variants={item} className="flex flex-wrap gap-3">
@@ -210,7 +210,7 @@ export function HeroSection() {
                 onClick={scrollToSummary}
                 className={cn(buttonVariants({ size: 'lg' }))}
               >
-                View Dashboard
+                View Summary
               </button>
             </motion.div>
 
@@ -220,8 +220,8 @@ export function HeroSection() {
               className="flex gap-7 pt-4 border-t border-white/[0.06]"
             >
               {[
-                { value: '393',     label: 'Orders'         },
-                { value: '$11,099', label: 'Revenue'        },
+                { value: '458',     label: 'Orders'         },
+                { value: '$12,657', label: 'Revenue'        },
                 { value: '50',      label: 'States reached' },
               ].map(({ value, label }) => (
                 <div key={label}>

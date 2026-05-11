@@ -44,7 +44,7 @@ const AXIS_PROPS = {
 type DateRange = '7D' | '30D' | '90D' | '1Y'
 type SalesView = 'D' | 'W' | 'M'
 
-// ── Real data (TCG Player · Jan 20 – Apr 20 2026) ─────────────────────────────
+// ── Real data (TCG Player · Jan 20 – May 10 2026) ─────────────────────────────
 
 const DAILY = [
   { label: 'Mar 22', revenue: 180,  units: 3  },
@@ -77,6 +77,21 @@ const DAILY = [
   { label: 'Apr 18', revenue: 61,   units: 8  },
   { label: 'Apr 19', revenue: 448,  units: 24 },
   { label: 'Apr 20', revenue: 59,   units: 4  },
+  { label: 'Apr 26', revenue: 318,  units: 23 },
+  { label: 'Apr 27', revenue: 38,   units: 2  },
+  { label: 'Apr 28', revenue: 25,   units: 5  },
+  { label: 'Apr 29', revenue: 86,   units: 9  },
+  { label: 'Apr 30', revenue: 54,   units: 15 },
+  { label: 'May 1',  revenue: 38,   units: 6  },
+  { label: 'May 2',  revenue: 21,   units: 5  },
+  { label: 'May 3',  revenue: 86,   units: 5  },
+  { label: 'May 4',  revenue: 116,  units: 7  },
+  { label: 'May 5',  revenue: 222,  units: 14 },
+  { label: 'May 6',  revenue: 149,  units: 10 },
+  { label: 'May 7',  revenue: 105,  units: 12 },
+  { label: 'May 8',  revenue: 236,  units: 15 },
+  { label: 'May 9',  revenue: 47,   units: 17 },
+  { label: 'May 10', revenue: 17,   units: 1  },
 ]
 
 const WEEKLY = [
@@ -93,13 +108,17 @@ const WEEKLY = [
   { label: 'W11', revenue: 1805, units: 84  },
   { label: 'W12', revenue: 1188, units: 65  },
   { label: 'W13', revenue: 1207, units: 52  },
+  { label: 'W14', revenue: 356,  units: 25  },
+  { label: 'W15', revenue: 426,  units: 52  },
+  { label: 'W16', revenue: 776,  units: 69  },
 ]
 
 const MONTHLY = [
   { label: 'Jan', revenue: 943,  units: 109 },
   { label: 'Feb', revenue: 1016, units: 135 },
   { label: 'Mar', revenue: 5193, units: 310 },
-  { label: 'Apr', revenue: 3947, units: 195 },
+  { label: 'Apr', revenue: 4467, units: 249 },
+  { label: 'May', revenue: 1037, units: 92  },
 ]
 
 // Which views are selectable per range, and the default
@@ -122,19 +141,19 @@ function getSalesData(range: DateRange, view: SalesView) {
 // Avg order value trend per range
 const AOV_DATA: Record<DateRange, { label: string; aov: number }[]> = {
   '7D': [
-    { label: 'Apr 14', aov: 0    },
-    { label: 'Apr 15', aov: 41.1 },
-    { label: 'Apr 16', aov: 28.9 },
-    { label: 'Apr 17', aov: 74.2 },
-    { label: 'Apr 18', aov: 15.2 },
-    { label: 'Apr 19', aov: 44.8 },
-    { label: 'Apr 20', aov: 19.7 },
+    { label: 'May 4',  aov: 16.5 },
+    { label: 'May 5',  aov: 24.7 },
+    { label: 'May 6',  aov: 24.8 },
+    { label: 'May 7',  aov: 26.2 },
+    { label: 'May 8',  aov: 39.4 },
+    { label: 'May 9',  aov: 11.8 },
+    { label: 'May 10', aov: 17.0 },
   ],
   '30D': [
-    { label: 'W10', aov: 46.6 },
-    { label: 'W11', aov: 38.4 },
-    { label: 'W12', aov: 24.7 },
     { label: 'W13', aov: 40.2 },
+    { label: 'W14', aov: 35.6 },
+    { label: 'W15', aov: 17.0 },
+    { label: 'W16', aov: 25.9 },
   ],
   '90D': [
     { label: 'W1',  aov: 19.2 },
@@ -149,34 +168,38 @@ const AOV_DATA: Record<DateRange, { label: string; aov: number }[]> = {
     { label: 'W11', aov: 38.4 },
     { label: 'W12', aov: 24.7 },
     { label: 'W13', aov: 40.2 },
+    { label: 'W14', aov: 35.6 },
+    { label: 'W15', aov: 17.0 },
+    { label: 'W16', aov: 25.9 },
   ],
   '1Y': [
     { label: 'Jan', aov: 17.2 },
     { label: 'Feb', aov: 15.9 },
     { label: 'Mar', aov: 33.5 },
-    { label: 'Apr', aov: 33.2 },
+    { label: 'Apr', aov: 32.4 },
+    { label: 'May', aov: 22.6 },
   ],
 }
 
-// Top states by revenue (full period Jan 20 – Apr 20)
+// Top states by revenue (full period Jan 20 – May 10)
 const TOP_STATES = [
-  { state: 'CA', orders: 69, revenue: 1833 },
-  { state: 'TX', orders: 27, revenue: 942  },
-  { state: 'FL', orders: 27, revenue: 693  },
-  { state: 'NY', orders: 21, revenue: 639  },
+  { state: 'CA', orders: 84, revenue: 2121 },
+  { state: 'TX', orders: 37, revenue: 1198 },
+  { state: 'NY', orders: 26, revenue: 926  },
+  { state: 'FL', orders: 31, revenue: 773  },
+  { state: 'PA', orders: 18, revenue: 709  },
   { state: 'CT', orders: 5,  revenue: 609  },
-  { state: 'PA', orders: 15, revenue: 589  },
-  { state: 'SC', orders: 9,  revenue: 499  },
-  { state: 'IN', orders: 7,  revenue: 399  },
-  { state: 'MA', orders: 9,  revenue: 375  },
-  { state: 'IL', orders: 14, revenue: 339  },
+  { state: 'SC', orders: 11, revenue: 550  },
+  { state: 'IN', orders: 8,  revenue: 416  },
+  { state: 'MA', orders: 11, revenue: 387  },
+  { state: 'IL', orders: 16, revenue: 386  },
 ]
 
 const STATS: Record<DateRange, { revenue: string; units: number; orders: number; aov: string }> = {
-  '7D':  { revenue: '$1,207',  units: 52,  orders: 30,  aov: '$40.22' },
-  '30D': { revenue: '$5,625',  units: 253, orders: 154, aov: '$36.53' },
-  '90D': { revenue: '$11,099', units: 749, orders: 393, aov: '$28.24' },
-  '1Y':  { revenue: '$11,099', units: 749, orders: 393, aov: '$28.24' },
+  '7D':  { revenue: '$892',    units: 76,  orders: 37,  aov: '$24.10' },
+  '30D': { revenue: '$2,765',  units: 198, orders: 95,  aov: '$29.10' },
+  '90D': { revenue: '$12,657', units: 895, orders: 458, aov: '$27.63' },
+  '1Y':  { revenue: '$12,657', units: 895, orders: 458, aov: '$27.63' },
 }
 
 const TOP_SETS = [
@@ -427,7 +450,7 @@ function TopStatesChart() {
   return (
     <Card className="p-5">
       <WidgetTitle aside={
-        <span className="text-[0.62rem] text-slate-600 hidden sm:block">Jan 20 – Apr 20 · 50 states reached</span>
+        <span className="text-[0.62rem] text-slate-600 hidden sm:block">Jan 20 – May 10 · 50 states reached</span>
       }>
         Revenue by State
       </WidgetTitle>
@@ -471,7 +494,7 @@ function TableauBanner() {
             Real Sales Data Available
           </p>
           <p className="text-[0.75rem] text-slate-400 mt-0.5 leading-relaxed">
-            Actual Jan-Apr 2026 TCG Player sales analytics are on the Reports page.
+            Actual Jan-May 2026 TCG Player sales analytics are on the Reports page.
             Charts below are inventory snapshot estimates only.
           </p>
         </div>
@@ -500,7 +523,7 @@ export function SalesAnalytics() {
           <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
           <div>
             <h2 className="text-[1rem] font-semibold text-slate-100">Sales Analytics</h2>
-            <p className="text-[0.8rem] text-slate-500 mt-0.5">Jan 20 – Apr 20 2026 · real TCG Player data</p>
+            <p className="text-[0.8rem] text-slate-500 mt-0.5">Jan 20 – May 10 2026 · real TCG Player data</p>
           </div>
         </div>
         <DateFilter value={range} onChange={setRange} />

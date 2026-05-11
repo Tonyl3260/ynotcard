@@ -101,9 +101,9 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 function KPIPill() {
   return (
     <span className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-500/[0.07] border border-primary-500/[0.18] text-[0.72rem] whitespace-nowrap select-none">
-      <span className="font-semibold text-slate-300">393 orders</span>
+      <span className="font-semibold text-slate-300">458 orders</span>
       <span className="text-slate-500" aria-hidden>·</span>
-      <span className="font-semibold text-slate-300">$11.1k</span>
+      <span className="font-semibold text-slate-300">$12.7k</span>
       <span className="text-slate-500" aria-hidden>·</span>
       <span className="font-semibold text-slate-300">50 states</span>
     </span>
