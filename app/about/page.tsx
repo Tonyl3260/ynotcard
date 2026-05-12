@@ -3,9 +3,7 @@ import Link from 'next/link'
 import {
   ArrowUpRight,
   BarChart3,
-  Check,
   Code2,
-  Database,
   ExternalLink,
   FileSpreadsheet,
   Globe,
@@ -31,26 +29,6 @@ const STACK = [
   { name: 'Tailwind',    Icon: Palette          },
   { name: 'Recharts',    Icon: TrendingUp       },
   { name: 'Vercel',      Icon: Globe            },
-]
-
-// ── Skills ────────────────────────────────────────────────────────────────────
-
-const DATA_SKILLS = [
-  'Cleaning and reshaping raw operational exports (TCGplayer CSV, custom Excel inventory)',
-  'Building KPI frameworks for a multi-channel retail business',
-  'Identifying pricing inefficiencies (67 of 121 singles flagged for reprice review)',
-  'Geographic and temporal sales pattern analysis',
-  'Calculating margin retention after platform fees and shipping',
-  'Designing executive-summary narratives from raw numbers',
-]
-
-const TECH_SKILLS = [
-  'Python data pipeline (CSV → JSON transformation, PII stripping)',
-  'Excel modeling with calculated fields for fees, margin, and reprice flags',
-  'Tableau Public for cross-platform dashboard delivery',
-  'Next.js 15 with App Router, TypeScript, Tailwind CSS',
-  'Recharts for interactive visualizations',
-  'Vercel deployment with continuous integration',
 ]
 
 // ── CTA links ─────────────────────────────────────────────────────────────────
@@ -95,21 +73,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function BulletList({ items }: { items: string[] }) {
-  return (
-    <ul className="space-y-2.5">
-      {items.map((item) => (
-        <li key={item} className="flex items-start gap-2.5">
-          <span className="mt-[3px] shrink-0 h-4 w-4 rounded-full bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-            <Check size={9} strokeWidth={3} className="text-primary-400" />
-          </span>
-          <span className="text-[0.84rem] text-slate-400 leading-relaxed">{item}</span>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function AboutPage() {
@@ -126,49 +89,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      {/* ── 2. Project overview ── */}
-      <div>
-        <SectionLabel>Overview</SectionLabel>
-        <Card accent="blue" className="p-6">
-          <p className="text-[0.92rem] text-slate-300 leading-[1.75]">
-            <span className="font-semibold text-slate-100">ynotcard</span> is a portfolio analytics
-            dashboard built with real data from my trading card reselling business operating across
-            TCGplayer, eBay, and Whatnot. The dashboard tracks inventory, sales performance, shipping
-            operations, and pricing efficiency across{' '}
-            <span className="text-primary-400 font-semibold">393 orders</span> shipped to{' '}
-            <span className="text-primary-400 font-semibold">all 50 US states</span> between
-            January and April 2026.
-          </p>
-        </Card>
-      </div>
-
-      {/* ── 3. What this demonstrates ── */}
-      <div>
-        <SectionLabel>What this demonstrates</SectionLabel>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card className="p-6">
-            <div className="flex items-center gap-2.5 mb-4">
-              <span className="h-7 w-7 rounded-lg bg-primary-500/10 border border-primary-500/20 flex items-center justify-center shrink-0">
-                <Database size={14} className="text-primary-400" />
-              </span>
-              <h3 className="text-[0.88rem] font-semibold text-slate-200">Data analyst skills</h3>
-            </div>
-            <BulletList items={DATA_SKILLS} />
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center gap-2.5 mb-4">
-              <span className="h-7 w-7 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0">
-                <Code2 size={14} className="text-cyan-400" />
-              </span>
-              <h3 className="text-[0.88rem] font-semibold text-slate-200">Technical skills</h3>
-            </div>
-            <BulletList items={TECH_SKILLS} />
-          </Card>
-        </div>
-      </div>
-
-      {/* ── 4. Data sources ── */}
+      {/* ── 2. Data sources ── */}
       <div>
         <SectionLabel>Data sources</SectionLabel>
         <Card className="p-6">
