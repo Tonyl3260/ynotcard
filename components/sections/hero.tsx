@@ -32,16 +32,16 @@ const item = {
 
 // Top 10 sets by revenue (inventory.json set_breakdown)
 const SET_DATA = [
-  { abbr: 'Promo',      rev: 597.49 },
-  { abbr: 'PRB Best',   rev: 523.13 },
-  { abbr: 'PRB v2',     rev: 430.34 },
-  { abbr: 'Fist',       rev: 405.19 },
-  { abbr: "Kami's",     rev: 393.06 },
-  { abbr: 'His Will',   rev: 326.35 },
-  { abbr: 'Azure Sea',  rev: 272.00 },
-  { abbr: 'Anime 25',   rev: 234.83 },
+  { abbr: 'PRB v2',     rev: 620.46 },
+  { abbr: 'PRB Best',   rev: 532.53 },
+  { abbr: 'Promo',      rev: 398.62 },
+  { abbr: 'His Will',   rev: 320.60 },
+  { abbr: 'Fist',       rev: 267.60 },
+  { abbr: "Kami's",     rev: 246.49 },
+  { abbr: 'Azure Sea',  rev: 240.12 },
+  { abbr: 'Anime 25',   rev: 232.06 },
   { abbr: 'Paramount',  rev: 229.95 },
-  { abbr: 'Emperors',   rev: 216.86 },
+  { abbr: 'Heroines',   rev: 197.60 },
 ]
 const MAX_SET_REV = SET_DATA[0].rev
 
@@ -81,14 +81,14 @@ function DashboardPreview() {
         {/* Chrome */}
         <div className="flex items-center justify-between px-4 py-3 bg-canvas-900/60 border-b border-white/[0.06]">
           <span className="text-[0.6rem] font-semibold text-slate-500">Inventory Snapshot</span>
-          <span className="text-[0.6rem] text-slate-600">Apr 20, 2026</span>
+          <span className="text-[0.6rem] text-slate-600">May 18, 2026</span>
         </div>
 
         {/* Metric strip */}
         <div className="grid grid-cols-2 divide-x divide-white/[0.05] border-b border-white/[0.06]">
           {[
-            { label: 'Listed Value',    value: '$6,302', color: 'text-primary-400' },
-            { label: 'Unique Listings', value: '131',    color: 'text-emerald-400' },
+            { label: 'Listed Value',    value: '$5,920', color: 'text-primary-400' },
+            { label: 'Unique Listings', value: '133',    color: 'text-emerald-400' },
           ].map(({ label, value, color }) => (
             <div key={label} className="px-4 py-3 bg-canvas-800/40">
               <div className={cn('text-[1.05rem] font-bold tabular-nums', color)}>{value}</div>
