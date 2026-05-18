@@ -202,7 +202,7 @@ export function HeroSection() {
               variants={item}
               className="text-[1rem] text-slate-400 leading-relaxed max-w-[460px]"
             >
-              Operational analytics for a multi-channel TCG reselling business. 458 orders, 50 states, $12,657 revenue from Jan to May 2026. Real data, refreshed monthly.
+              Operational analytics for a multi-channel TCG reselling business. 458 orders, 50 states, $12,657 revenue from Jan to May 2026.
             </motion.p>
 
             <motion.div variants={item} className="flex flex-wrap gap-3">

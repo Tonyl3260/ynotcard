@@ -84,9 +84,6 @@ export default function AboutPage() {
         <h1 className="text-[2rem] font-bold text-slate-100 leading-tight tracking-tight mb-2">
           About this project
         </h1>
-        <p className="text-slate-400 text-[1rem]">
-          Operational analytics for a real TCG reselling business
-        </p>
       </div>
 
       {/* ── 2. Data sources ── */}

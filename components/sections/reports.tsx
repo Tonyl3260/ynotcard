@@ -82,7 +82,6 @@ export function Reports() {
           <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
           <div>
             <h1 className="text-[1rem] font-semibold text-slate-100">Reports</h1>
-            <p className="text-[0.8rem] text-slate-500 mt-0.5">Sales analytics · Tableau dashboards · deep-dive analysis</p>
           </div>
         </div>
       </div>

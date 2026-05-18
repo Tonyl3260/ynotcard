@@ -523,7 +523,7 @@ export function SalesAnalytics() {
           <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
           <div>
             <h2 className="text-[1rem] font-semibold text-slate-100">Sales Analytics</h2>
-            <p className="text-[0.8rem] text-slate-500 mt-0.5">Jan 20 – May 10 2026 · real TCG Player data</p>
+            <p className="text-[0.8rem] text-slate-500 mt-0.5">Jan 20 – May 10 2026</p>
           </div>
         </div>
         <DateFilter value={range} onChange={setRange} />

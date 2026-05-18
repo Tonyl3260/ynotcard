@@ -216,7 +216,6 @@ export function InventoryIntelligence() {
         <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
         <div>
           <h2 className="text-[1rem] font-semibold text-slate-100">Inventory</h2>
-          <p className="text-[0.8rem] text-slate-500 mt-0.5">Full singles · sortable · live totals</p>
         </div>
       </div>
 

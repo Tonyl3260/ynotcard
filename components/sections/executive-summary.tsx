@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Activity, AlertTriangle, BarChart2, Package, TrendingUp } from 'lucide-react'
+import { BarChart2, Package, TrendingUp } from 'lucide-react'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -61,43 +61,6 @@ const INSIGHTS: Insight[] = [
     ),
     metric:      '47 SRs',
     metricColor: 'text-emerald-400',
-  },
-  {
-    Icon:        Activity,
-    iconBg:      'rgba(251,191,36,0.12)',
-    iconColor:   '#FBBF24',
-    tag:         'Risk',
-    tagColor:    'text-amber-400 bg-amber-400/10 border-amber-400/25',
-    headline:    '67 of 121 singles (55%) flagged for reprice review',
-    narrative: (
-      <>
-        Over half your singles are priced above market. Notable outliers:{' '}
-        <Hi color="text-amber-400">Monkey.D.Luffy AA (OP11-040)</Hi> listed at $99.95 vs
-        $44.47 market (125% above), and{' '}
-        <Hi color="text-amber-400">Nefeltari Vivi AA</Hi> at $44.95 vs $25.86 market (74% above).
-        Aligning to market could significantly improve sell-through.
-      </>
-    ),
-    metric:      '67 items',
-    metricColor: 'text-amber-400',
-  },
-  {
-    Icon:        AlertTriangle,
-    iconBg:      'rgba(239,68,68,0.12)',
-    iconColor:   '#EF4444',
-    tag:         'Alert',
-    tagColor:    'text-red-400 bg-red-500/10 border-red-500/25',
-    headline:    'Sanji AA (OP02-026) is your highest-value item at $229.95',
-    narrative: (
-      <>
-        <Hi color="text-red-400">Sanji Alternate Art (OP02-026 L)</Hi> is your most valuable
-        single at $229.95 listed vs $166.33 market (38% above). With only{' '}
-        <Hi>1 copy</Hi> in stock, this represents high single-item concentration risk.
-        Consider sourcing more copies or adjusting price toward market to accelerate the sale.
-      </>
-    ),
-    metric:      '$229.95',
-    metricColor: 'text-red-400',
   },
 ]
 
