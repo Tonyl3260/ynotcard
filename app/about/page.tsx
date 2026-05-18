@@ -79,13 +79,6 @@ export default function AboutPage() {
   return (
     <div className="px-6 pt-12 pb-16 max-w-5xl mx-auto space-y-12">
 
-      {/* ── 1. Page header ── */}
-      <div>
-        <h1 className="text-[2rem] font-bold text-slate-100 leading-tight tracking-tight mb-2">
-          About this project
-        </h1>
-      </div>
-
       {/* ── 2. Data sources ── */}
       <div>
         <SectionLabel>Data sources</SectionLabel>

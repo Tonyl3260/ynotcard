@@ -76,16 +76,6 @@ export function Reports() {
   return (
     <div className="px-6 py-10 max-w-6xl mx-auto space-y-10">
 
-      {/* Page header */}
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="flex items-center gap-2.5">
-          <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
-          <div>
-            <h1 className="text-[1rem] font-semibold text-slate-100">Reports</h1>
-          </div>
-        </div>
-      </div>
-
       {/* Primary report */}
       <div>
         <div className="flex items-center justify-between mb-3">
