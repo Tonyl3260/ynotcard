@@ -102,7 +102,7 @@ export default function AboutPage() {
               </div>
               <ul className="space-y-1.5">
                 {[
-                  '393 orders, Jan 20 to Apr 20 2026',
+                  '458 orders, Jan 20 to May 10 2026',
                   'Anonymized: addresses, names, and tracking numbers stripped before commit',
                   'Refreshed monthly when new exports are pulled',
                 ].map(t => (
@@ -121,7 +121,7 @@ export default function AboutPage() {
               </div>
               <ul className="space-y-1.5">
                 {[
-                  '121 singles + 10 sealed listings, $6,302 listed value',
+                  '123 singles + 10 sealed listings, $5,920 listed value',
                   'Updated continuously as listings change',
                   'Calculated fields: TCGplayer fee, net per sale, price vs market, reprice flag',
                 ].map(t => (

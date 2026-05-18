@@ -51,6 +51,7 @@ const KPIS: KPIData[] = [
     value: active,
     format: (v) => Math.round(v).toString(),
     sparkline: [100, 105, 110, 115, 118, 122, 126, 128, 130, active],
+    accent: 'purple',
   },
   {
     label: 'Avg Listing Price',
