@@ -214,20 +214,20 @@ function TopNav() {
   return (
     <>
       <header className="sticky top-0 z-40 h-16 border-b border-white/[0.06] bg-canvas-950/80 backdrop-blur-[20px] backdrop-saturate-150">
-        <div className="relative flex h-full items-center max-w-[1600px] mx-auto px-5">
+        {/* 3-column grid: logo | nav (auto) | actions — prevents overlap at any width */}
+        <div className="grid grid-cols-[1fr_auto_1fr] h-full items-center max-w-[1600px] mx-auto px-4 sm:px-5">
 
           {/* Left: logo */}
           <Logo />
 
-          {/* Center: nav links, absolutely centered */}
-          <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-0.5">
+          {/* Center: nav links (desktop only, collapses to 0 on mobile) */}
+          <nav className="hidden md:flex items-center gap-0.5">
             <NavLinks />
           </nav>
 
           {/* Right: KPI pill + icons + hamburger */}
-          <div className="ml-auto flex items-center gap-1.5">
+          <div className="flex items-center justify-end gap-1.5">
             <KPIPill />
-            {/* Divider between KPI pill and social icons */}
             <span className="hidden lg:block w-px h-4 bg-white/[0.12] mx-1" aria-hidden />
             <div className="hidden md:flex items-center gap-0.5">
               <IconBtn href="https://github.com/Tonyl3260" label="GitHub">

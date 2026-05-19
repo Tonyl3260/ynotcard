@@ -79,6 +79,72 @@ export default function AboutPage() {
   return (
     <div className="px-6 pt-12 pb-16 max-w-5xl mx-auto space-y-12">
 
+      {/* ── 1. Project summary ── */}
+      <div className="rounded-2xl border border-white/[0.08] bg-canvas-900/50 p-7 sm:p-9 space-y-6">
+        <div>
+          <p className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-primary-400 mb-3">
+            Portfolio Project · Data Analytics
+          </p>
+          <h1 className="text-[1.4rem] sm:text-2xl font-bold text-slate-100 leading-snug mb-4">
+            Business intelligence dashboard
+          </h1>
+          <p className="text-[0.875rem] text-slate-400 leading-relaxed max-w-2xl">
+            I needed a better way to track my TCG reselling business than a spreadsheet,
+            so I built one. This turns raw TCGplayer exports into revenue trends, margin
+            analysis, and repricing signals across 458 real orders. Python and Excel
+            handle the data pipeline, Next.js and Recharts handle the frontend.
+          </p>
+        </div>
+
+        <div>
+          <p className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-slate-500 mb-3">
+            Skills
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { name: 'Python',       note: 'ETL & data cleaning',   Icon: Code2           },
+              { name: 'Excel',        note: 'source modeling',       Icon: FileSpreadsheet },
+              { name: 'Tableau',      note: 'exploratory analysis',  Icon: BarChart3       },
+              { name: 'Next.js',      note: 'production frontend',   Icon: Layers          },
+              { name: 'Recharts',     note: 'data visualization',    Icon: TrendingUp      },
+              { name: 'TypeScript',   note: 'type-safe development', Icon: Code2           },
+              { name: 'Tailwind CSS', note: 'UI design',             Icon: Palette         },
+            ].map(({ name, note, Icon }) => (
+              <span
+                key={name}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.78rem] font-medium text-slate-300 bg-canvas-800/80 border border-white/[0.08]"
+              >
+                <Icon size={12} strokeWidth={1.75} className="text-primary-400 shrink-0" />
+                <span className="font-semibold">{name}</span>
+                <span className="text-slate-600">·</span>
+                <span className="text-[0.72rem] text-slate-500">{note}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-3 pt-1">
+          <a
+            href="https://www.linkedin.com/in/tonylin3260/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonVariants({ variant: 'primary', size: 'sm' }), 'gap-1.5')}
+          >
+            <ExternalLink size={13} />
+            LinkedIn
+          </a>
+          <a
+            href="/tony-lin-resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'gap-1.5')}
+          >
+            <FileSpreadsheet size={13} />
+            Resume
+          </a>
+        </div>
+      </div>
+
       {/* ── 2. Data sources ── */}
       <div>
         <SectionLabel>Data sources</SectionLabel>
