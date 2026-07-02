@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node -e \"const d = require\\('./inventory.json'\\); d.set_breakdown.slice\\(0,10\\).forEach\\(s => console.log\\(JSON.stringify\\(s\\)\\)\\)\")",
       "Bash(node -e \"const d = require\\('C:/Users/Jing/ynot/inventory.json'\\); d.set_breakdown.slice\\(0,10\\).forEach\\(s => console.log\\(JSON.stringify\\(s\\)\\)\\)\")",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(dir C:UsersTonyynotcard *)"
     ]
   }
 }

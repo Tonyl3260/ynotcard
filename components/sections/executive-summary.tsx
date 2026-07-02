@@ -32,16 +32,16 @@ const INSIGHTS: Insight[] = [
     iconColor:   '#3B82F6',
     tag:         'Portfolio',
     tagColor:    'text-primary-400 bg-primary-500/10 border-primary-500/25',
-    headline:    '$6,302 listed value with 81% net margin after fees',
+    headline:    '$6,964 listed value with 80% net margin after fees',
     narrative: (
       <>
-        Current inventory spans <Hi>131 active listings</Hi> (121 singles + 10 sealed)
-        with <Hi>$6,302</Hi> in total listed value. After TCG Player fees, the portfolio
-        nets <Hi>$5,127</Hi>, an 81.4% retention rate. SR and Legendary cards are the
-        primary value drivers at <Hi>$2,894</Hi> combined.
+        Current inventory spans <Hi>153 active listings</Hi> (151 singles + 2 sealed)
+        with <Hi>$6,964</Hi> in total listed value. After TCG Player fees, the portfolio
+        nets <Hi>$5,543</Hi>, a 79.6% retention rate. SR and Legendary cards are the
+        primary value drivers at <Hi>$3,294</Hi> combined.
       </>
     ),
-    metric:      '$6,302',
+    metric:      '$6,964',
     metricColor: 'text-primary-400',
   },
   {
@@ -50,16 +50,16 @@ const INSIGHTS: Insight[] = [
     iconColor:   '#10B981',
     tag:         'Breakdown',
     tagColor:    'text-emerald-400 bg-emerald-500/10 border-emerald-500/25',
-    headline:    'SR cards lead with 47 listings and $1,874 in value',
+    headline:    'SR cards lead with 55 listings and $1,915 in value',
     narrative: (
       <>
-        Super Rare cards dominate inventory with <Hi color="text-emerald-400">$1,874</Hi> across
-        47 listings, followed by Legendary at <Hi color="text-emerald-400">$1,020</Hi> (13 listings).
-        Top sets by value: Promo Cards <Hi color="text-emerald-400">$597</Hi>, Premium Booster Best{' '}
-        <Hi color="text-emerald-400">$523</Hi>, and Fist of Divine Speed <Hi color="text-emerald-400">$405</Hi>.
+        Super Rare cards dominate inventory with <Hi color="text-emerald-400">$1,915</Hi> across
+        55 listings, followed by Legendary at <Hi color="text-emerald-400">$1,379</Hi> (10 listings).
+        Top sets by value: Promo Cards <Hi color="text-emerald-400">$1,871</Hi>, Premium Booster Vol. 2{' '}
+        <Hi color="text-emerald-400">$1,329</Hi>, and Azure Sea&apos;s Seven <Hi color="text-emerald-400">$389</Hi>.
       </>
     ),
-    metric:      '47 SRs',
+    metric:      '55 SRs',
     metricColor: 'text-emerald-400',
   },
 ]
@@ -105,7 +105,7 @@ export function ExecutiveSummary() {
             <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.06em] border"
               style={{ color: '#60A5FA', background: 'rgba(59,130,246,0.08)', borderColor: 'rgba(59,130,246,0.2)' }}
             >
-              Jan – Apr 2026
+              Jan – Jun 2026
             </span>
           </div>
 
@@ -156,7 +156,7 @@ export function ExecutiveSummary() {
           <div className="px-6 py-3 border-t border-white/[0.04] flex items-center justify-between"
             style={{ background: 'rgba(0,0,0,0.15)' }}>
             <p className="text-[0.62rem] text-slate-600">
-              Based on Jan – Apr 2026 TCGPlayer sales data
+              Based on Jan – Jun 2026 TCGPlayer sales data
             </p>
             <p className="text-[0.62rem] text-slate-600">
               Inventory snapshot

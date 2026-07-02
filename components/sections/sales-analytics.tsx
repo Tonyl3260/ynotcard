@@ -44,7 +44,7 @@ const AXIS_PROPS = {
 type DateRange = '7D' | '30D' | '90D' | '1Y'
 type SalesView = 'D' | 'W' | 'M'
 
-// ── Real data (TCG Player · Jan 20 – May 10 2026) ─────────────────────────────
+// ── Real data (TCG Player · Jan 20 – Jun 30 2026) ─────────────────────────────
 
 const DAILY = [
   { label: 'Mar 22', revenue: 180,  units: 3  },
@@ -92,6 +92,56 @@ const DAILY = [
   { label: 'May 8',  revenue: 236,  units: 15 },
   { label: 'May 9',  revenue: 47,   units: 17 },
   { label: 'May 10', revenue: 17,   units: 1  },
+  { label: 'May 11', revenue: 60,   units: 7  },
+  { label: 'May 12', revenue: 8,    units: 2  },
+  { label: 'May 14', revenue: 20,   units: 2  },
+  { label: 'May 15', revenue: 29,   units: 3  },
+  { label: 'May 16', revenue: 265,  units: 5  },
+  { label: 'May 17', revenue: 42,   units: 1  },
+  { label: 'May 18', revenue: 38,   units: 2  },
+  { label: 'May 19', revenue: 190,  units: 11 },
+  { label: 'May 20', revenue: 184,  units: 15 },
+  { label: 'May 21', revenue: 84,   units: 5  },
+  { label: 'May 22', revenue: 96,   units: 3  },
+  { label: 'May 23', revenue: 137,  units: 14 },
+  { label: 'May 24', revenue: 31,   units: 8  },
+  { label: 'May 25', revenue: 230,  units: 5  },
+  { label: 'May 26', revenue: 190,  units: 18 },
+  { label: 'May 27', revenue: 220,  units: 1  },
+  { label: 'May 28', revenue: 76,   units: 3  },
+  { label: 'May 29', revenue: 704,  units: 8  },
+  { label: 'May 30', revenue: 125,  units: 11 },
+  { label: 'May 31', revenue: 7,    units: 3  },
+  { label: 'Jun 1',  revenue: 82,   units: 9  },
+  { label: 'Jun 2',  revenue: 15,   units: 2  },
+  { label: 'Jun 3',  revenue: 180,  units: 6  },
+  { label: 'Jun 4',  revenue: 69,   units: 5  },
+  { label: 'Jun 5',  revenue: 91,   units: 10 },
+  { label: 'Jun 6',  revenue: 342,  units: 9  },
+  { label: 'Jun 7',  revenue: 65,   units: 5  },
+  { label: 'Jun 8',  revenue: 346,  units: 19 },
+  { label: 'Jun 9',  revenue: 88,   units: 5  },
+  { label: 'Jun 10', revenue: 536,  units: 28 },
+  { label: 'Jun 11', revenue: 413,  units: 29 },
+  { label: 'Jun 12', revenue: 524,  units: 18 },
+  { label: 'Jun 13', revenue: 85,   units: 8  },
+  { label: 'Jun 14', revenue: 391,  units: 14 },
+  { label: 'Jun 15', revenue: 326,  units: 3  },
+  { label: 'Jun 16', revenue: 158,  units: 12 },
+  { label: 'Jun 17', revenue: 257,  units: 15 },
+  { label: 'Jun 18', revenue: 673,  units: 38 },
+  { label: 'Jun 19', revenue: 239,  units: 13 },
+  { label: 'Jun 20', revenue: 42,   units: 2  },
+  { label: 'Jun 21', revenue: 547,  units: 28 },
+  { label: 'Jun 22', revenue: 250,  units: 17 },
+  { label: 'Jun 23', revenue: 171,  units: 19 },
+  { label: 'Jun 24', revenue: 171,  units: 21 },
+  { label: 'Jun 25', revenue: 174,  units: 8  },
+  { label: 'Jun 26', revenue: 260,  units: 8  },
+  { label: 'Jun 27', revenue: 195,  units: 24 },
+  { label: 'Jun 28', revenue: 108,  units: 20 },
+  { label: 'Jun 29', revenue: 20,   units: 5  },
+  { label: 'Jun 30', revenue: 32,   units: 7  },
 ]
 
 const WEEKLY = [
@@ -111,6 +161,14 @@ const WEEKLY = [
   { label: 'W14', revenue: 356,  units: 25  },
   { label: 'W15', revenue: 426,  units: 52  },
   { label: 'W16', revenue: 776,  units: 69  },
+  { label: 'W17', revenue: 424,  units: 20  },
+  { label: 'W18', revenue: 760,  units: 58  },
+  { label: 'W19', revenue: 1551, units: 49  },
+  { label: 'W20', revenue: 843,  units: 46  },
+  { label: 'W21', revenue: 2384, units: 121 },
+  { label: 'W22', revenue: 2242, units: 111 },
+  { label: 'W23', revenue: 1329, units: 117 },
+  { label: 'W24', revenue: 52,   units: 12  },
 ]
 
 const MONTHLY = [
@@ -118,7 +176,8 @@ const MONTHLY = [
   { label: 'Feb', revenue: 1016, units: 135 },
   { label: 'Mar', revenue: 5193, units: 310 },
   { label: 'Apr', revenue: 4467, units: 249 },
-  { label: 'May', revenue: 1037, units: 92  },
+  { label: 'May', revenue: 3772, units: 219 },
+  { label: 'Jun', revenue: 6850, units: 407 },
 ]
 
 // Which views are selectable per range, and the default
@@ -141,19 +200,19 @@ function getSalesData(range: DateRange, view: SalesView) {
 // Avg order value trend per range
 const AOV_DATA: Record<DateRange, { label: string; aov: number }[]> = {
   '7D': [
-    { label: 'May 4',  aov: 16.5 },
-    { label: 'May 5',  aov: 24.7 },
-    { label: 'May 6',  aov: 24.8 },
-    { label: 'May 7',  aov: 26.2 },
-    { label: 'May 8',  aov: 39.4 },
-    { label: 'May 9',  aov: 11.8 },
-    { label: 'May 10', aov: 17.0 },
+    { label: 'Jun 24', aov: 19.0 },
+    { label: 'Jun 25', aov: 34.8 },
+    { label: 'Jun 26', aov: 64.9 },
+    { label: 'Jun 27', aov: 19.5 },
+    { label: 'Jun 28', aov: 18.0 },
+    { label: 'Jun 29', aov: 6.7  },
+    { label: 'Jun 30', aov: 7.9  },
   ],
   '30D': [
-    { label: 'W13', aov: 40.2 },
-    { label: 'W14', aov: 35.6 },
-    { label: 'W15', aov: 17.0 },
-    { label: 'W16', aov: 25.9 },
+    { label: 'Jun W1', aov: 32.6 },
+    { label: 'Jun W2', aov: 39.4 },
+    { label: 'Jun W3', aov: 32.8 },
+    { label: 'Jun W4', aov: 21.7 },
   ],
   '90D': [
     { label: 'W1',  aov: 19.2 },
@@ -171,43 +230,52 @@ const AOV_DATA: Record<DateRange, { label: string; aov: number }[]> = {
     { label: 'W14', aov: 35.6 },
     { label: 'W15', aov: 17.0 },
     { label: 'W16', aov: 25.9 },
+    { label: 'W17', aov: 35.3 },
+    { label: 'W18', aov: 28.1 },
+    { label: 'W19', aov: 64.6 },
+    { label: 'W20', aov: 27.2 },
+    { label: 'W21', aov: 36.1 },
+    { label: 'W22', aov: 38.7 },
+    { label: 'W23', aov: 24.6 },
+    { label: 'W24', aov: 7.4  },
   ],
   '1Y': [
     { label: 'Jan', aov: 17.2 },
     { label: 'Feb', aov: 15.9 },
     { label: 'Mar', aov: 33.5 },
     { label: 'Apr', aov: 32.4 },
-    { label: 'May', aov: 22.6 },
+    { label: 'May', aov: 34.6 },
+    { label: 'Jun', aov: 31.7 },
   ],
 }
 
-// Top states by revenue (full period Jan 20 – May 10)
+// Top states by revenue (full period Jan 20 – Jun 30)
 const TOP_STATES = [
-  { state: 'CA', orders: 84, revenue: 2121 },
-  { state: 'TX', orders: 37, revenue: 1198 },
-  { state: 'NY', orders: 26, revenue: 926  },
-  { state: 'FL', orders: 31, revenue: 773  },
-  { state: 'PA', orders: 18, revenue: 709  },
-  { state: 'CT', orders: 5,  revenue: 609  },
-  { state: 'SC', orders: 11, revenue: 550  },
-  { state: 'IN', orders: 8,  revenue: 416  },
-  { state: 'MA', orders: 11, revenue: 387  },
-  { state: 'IL', orders: 16, revenue: 386  },
+  { state: 'CA', orders: 149, revenue: 3687 },
+  { state: 'TX', orders: 68,  revenue: 1972 },
+  { state: 'NY', orders: 40,  revenue: 1904 },
+  { state: 'FL', orders: 54,  revenue: 1421 },
+  { state: 'PA', orders: 37,  revenue: 1239 },
+  { state: 'IL', orders: 29,  revenue: 851  },
+  { state: 'CT', orders: 5,   revenue: 609  },
+  { state: 'SC', orders: 11,  revenue: 550  },
+  { state: 'WA', orders: 13,  revenue: 549  },
+  { state: 'WI', orders: 5,   revenue: 436  },
 ]
 
 const STATS: Record<DateRange, { revenue: string; units: number; orders: number; aov: string }> = {
-  '7D':  { revenue: '$892',    units: 76,  orders: 37,  aov: '$24.10' },
-  '30D': { revenue: '$2,765',  units: 198, orders: 95,  aov: '$29.10' },
-  '90D': { revenue: '$12,657', units: 895, orders: 458, aov: '$27.63' },
-  '1Y':  { revenue: '$12,657', units: 895, orders: 458, aov: '$27.63' },
+  '7D':  { revenue: '$960',    units: 93,   orders: 41,  aov: '$23.42' },
+  '30D': { revenue: '$6,850',  units: 407,  orders: 216, aov: '$31.71' },
+  '90D': { revenue: '$15,089', units: 875,  orders: 463, aov: '$32.60' },
+  '1Y':  { revenue: '$22,241', units: 1429, orders: 745, aov: '$29.85' },
 }
 
 const TOP_SETS = [
-  { name: 'One Piece Promotion Cards',       units: 26, revenue: 597, margin: 81.5 },
-  { name: 'Premium Booster The Best',        units: 28, revenue: 523, margin: 79.9 },
-  { name: 'Premium Booster The Best Vol. 2', units: 33, revenue: 430, margin: 76.2 },
-  { name: 'A Fist of Divine Speed',          units: 10, revenue: 405, margin: 84.6 },
-  { name: "Adventure on Kami's Island",      units: 11, revenue: 393, margin: 84.1 },
+  { name: 'One Piece Promotion Cards',          units: 32,  revenue: 1871, margin: 85.8 },
+  { name: 'Premium Booster The Best Vol. 2',    units: 136, revenue: 1329, margin: 72.1 },
+  { name: "The Azure Sea's Seven",              units: 19,  revenue: 389,  margin: 80.7 },
+  { name: 'Royal Blood',                        units: 12,  revenue: 358,  margin: 83.2 },
+  { name: 'A Fist of Divine Speed',             units: 17,  revenue: 350,  margin: 80.7 },
 ]
 
 // ── Shared primitives ─────────────────────────────────────────────────────────
@@ -450,7 +518,7 @@ function TopStatesChart() {
   return (
     <Card className="p-5">
       <WidgetTitle aside={
-        <span className="text-[0.62rem] text-slate-600 hidden sm:block">Jan 20 – May 10 · 50 states reached</span>
+        <span className="text-[0.62rem] text-slate-600 hidden sm:block">Jan 20 – Jun 30 · 50 states reached</span>
       }>
         Revenue by State
       </WidgetTitle>
@@ -494,7 +562,7 @@ function TableauBanner() {
             Real Sales Data Available
           </p>
           <p className="text-[0.75rem] text-slate-400 mt-0.5 leading-relaxed">
-            Actual Jan-May 2026 TCG Player sales analytics are on the Reports page.
+            Actual Jan-Jun 2026 TCG Player sales analytics are on the Reports page.
             Charts below are inventory snapshot estimates only.
           </p>
         </div>
@@ -523,7 +591,7 @@ export function SalesAnalytics() {
           <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
           <div>
             <h2 className="text-[1rem] font-semibold text-slate-100">Sales Analytics</h2>
-            <p className="text-[0.8rem] text-slate-500 mt-0.5">Jan 20 – May 10 2026</p>
+            <p className="text-[0.8rem] text-slate-500 mt-0.5">Jan 20 – Jun 30 2026</p>
           </div>
         </div>
         <DateFilter value={range} onChange={setRange} />
