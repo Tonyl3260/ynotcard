@@ -4,7 +4,16 @@
       "Bash(node -e \"const d = require\\('./inventory.json'\\); d.set_breakdown.slice\\(0,10\\).forEach\\(s => console.log\\(JSON.stringify\\(s\\)\\)\\)\")",
       "Bash(node -e \"const d = require\\('C:/Users/Jing/ynot/inventory.json'\\); d.set_breakdown.slice\\(0,10\\).forEach\\(s => console.log\\(JSON.stringify\\(s\\)\\)\\)\")",
       "Bash(node *)",
-      "Bash(dir C:UsersTonyynotcard *)"
+      "Bash(dir C:UsersTonyynotcard *)",
+      "Bash(curl *)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s http://localhost:3000/about)",
+      "Bash(python *)",
+      "Skill(dataviz)",
+      "Bash(command -v chromium-cli)",
+      "Bash(chromium-cli --help)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(npx --no-install playwright --version)"
     ]
   }
 }

@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Footer } from '@/components/sections/footer'
+import { TOTAL_ORDERS, TOTAL_REVENUE, UNIQUE_STATES } from '@/lib/data'
 
 // ── Nav config ────────────────────────────────────────────────────────────────
 
@@ -99,13 +100,15 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 // ── KPI pill ──────────────────────────────────────────────────────────────────
 
 function KPIPill() {
+  const revenueLabel = '$' + (TOTAL_REVENUE / 1000).toFixed(1) + 'k'
+
   return (
     <span className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-500/[0.07] border border-primary-500/[0.18] text-[0.72rem] whitespace-nowrap select-none">
-      <span className="font-semibold text-slate-300">458 orders</span>
+      <span className="font-semibold text-slate-300">{TOTAL_ORDERS} orders</span>
       <span className="text-slate-500" aria-hidden>·</span>
-      <span className="font-semibold text-slate-300">$12.7k</span>
+      <span className="font-semibold text-slate-300">{revenueLabel}</span>
       <span className="text-slate-500" aria-hidden>·</span>
-      <span className="font-semibold text-slate-300">50 states</span>
+      <span className="font-semibold text-slate-300">{UNIQUE_STATES} states</span>
     </span>
   )
 }

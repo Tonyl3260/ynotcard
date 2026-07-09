@@ -6,13 +6,9 @@ import { Card } from '@/components/ui/card'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { StrawHatHero } from '@/components/StrawHatHero'
+import { TOTAL_ORDERS, TOTAL_REVENUE, UNIQUE_STATES } from '@/lib/data'
 
-function scrollToSummary() {
-  const target = document.getElementById('summary')
-  if (!target) return
-  const y = target.getBoundingClientRect().top + window.scrollY - 64
-  window.scrollTo({ top: y, behavior: 'smooth' })
-}
+const REVENUE_LABEL = '$' + Math.round(TOTAL_REVENUE).toLocaleString('en-US')
 
 // ── Animation ─────────────────────────────────────────────────────────────────
 
@@ -202,16 +198,16 @@ export function HeroSection() {
               variants={item}
               className="text-[1rem] text-slate-400 leading-relaxed max-w-[460px]"
             >
-              Operational analytics for a multi-channel TCG reselling business. 458 orders, 50 states, $12,657 revenue from Jan to May 2026.
+              Operational analytics for a multi-channel TCG reselling business. {TOTAL_ORDERS} orders, {UNIQUE_STATES} states, {REVENUE_LABEL} revenue year to date.
             </motion.p>
 
             <motion.div variants={item} className="flex flex-wrap gap-3">
-              <button
-                onClick={scrollToSummary}
+              <Link
+                href="/analytics"
                 className={cn(buttonVariants({ size: 'lg' }))}
               >
                 View Summary
-              </button>
+              </Link>
             </motion.div>
 
             {/* Stats strip */}
@@ -220,9 +216,9 @@ export function HeroSection() {
               className="flex gap-7 pt-4 border-t border-white/[0.06]"
             >
               {[
-                { value: '458',     label: 'Orders'         },
-                { value: '$12,657', label: 'Revenue'        },
-                { value: '50',      label: 'States reached' },
+                { value: String(TOTAL_ORDERS),  label: 'Orders'         },
+                { value: REVENUE_LABEL,          label: 'Revenue'        },
+                { value: String(UNIQUE_STATES), label: 'States reached' },
               ].map(({ value, label }) => (
                 <div key={label}>
                   <div className="text-lg font-bold text-slate-100 tabular-nums">{value}</div>

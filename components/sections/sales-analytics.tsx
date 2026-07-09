@@ -267,7 +267,7 @@ const STATS: Record<DateRange, { revenue: string; units: number; orders: number;
   '7D':  { revenue: '$960',    units: 93,   orders: 41,  aov: '$23.42' },
   '30D': { revenue: '$6,850',  units: 407,  orders: 216, aov: '$31.71' },
   '90D': { revenue: '$15,089', units: 875,  orders: 463, aov: '$32.60' },
-  '1Y':  { revenue: '$22,241', units: 1429, orders: 745, aov: '$29.85' },
+  '1Y':  { revenue: '$22,241', units: 1429, orders: 737, aov: '$30.18' },
 }
 
 const TOP_SETS = [
@@ -434,7 +434,7 @@ function SalesChart({ range }: { range: DateRange }) {
 
 function TopSetsTable() {
   return (
-    <Card className="p-5 h-full">
+    <Card accent="gold" className="p-5 h-full">
       <WidgetTitle>Top Sets by Listed Value</WidgetTitle>
       <div className="overflow-x-auto -mx-1 px-1">
         <div className="grid gap-3 pb-2 border-b border-white/[0.05] mb-1 min-w-[280px]"
@@ -474,19 +474,20 @@ function AvgOrderValueChart({ range }: { range: DateRange }) {
   const latest = nonZero.length ? nonZero[nonZero.length - 1].aov : 0
   const first  = nonZero.length ? nonZero[0].aov : 0
   const pct = first > 0 ? +((latest - first) / first * 100).toFixed(1) : 0
+  const periodAvg = parseFloat(STATS[range].aov.replace('$', ''))
 
   return (
     <Card accent="green" className="p-5 h-full">
       <WidgetTitle aside={
         <span className={cn('text-[0.72rem] font-semibold flex items-center gap-1', pct >= 0 ? 'text-emerald-400' : 'text-red-400')}>
           {pct >= 0 ? <TrendingUp size={11} strokeWidth={2.5} /> : <TrendingDown size={11} strokeWidth={2.5} />}
-          {pct >= 0 ? '+' : ''}{pct}%
+          {pct >= 0 ? '+' : ''}{pct}% since start of period
         </span>
       }>
         Avg Order Value
       </WidgetTitle>
       <p className="text-[2rem] font-bold tabular-nums text-emerald-400 leading-none mb-4">
-        ${latest.toFixed(2)}
+        ${periodAvg.toFixed(2)}
       </p>
       <div className="h-[160px]">
         <ResponsiveContainer width="100%" height={160}>
@@ -518,7 +519,7 @@ function TopStatesChart() {
   return (
     <Card className="p-5">
       <WidgetTitle aside={
-        <span className="text-[0.62rem] text-slate-600 hidden sm:block">Jan 20 – Jun 30 · 50 states reached</span>
+        <span className="text-[0.62rem] text-slate-600 hidden sm:block">50 states reached</span>
       }>
         Revenue by State
       </WidgetTitle>
@@ -591,7 +592,6 @@ export function SalesAnalytics() {
           <span className="h-4 w-[3px] rounded-full bg-gradient-to-b from-primary-500 to-cyan-400 shrink-0" />
           <div>
             <h2 className="text-[1rem] font-semibold text-slate-100">Sales Analytics</h2>
-            <p className="text-[0.8rem] text-slate-500 mt-0.5">Jan 20 – Jun 30 2026</p>
           </div>
         </div>
         <DateFilter value={range} onChange={setRange} />
