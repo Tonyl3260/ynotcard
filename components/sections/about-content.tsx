@@ -48,13 +48,13 @@ const STORY = [
   },
   {
     label: 'The build',
-    text: 'This dashboard pulls from real TCGplayer exports and inventory data, processes it with Python, and surfaces what actually matters.',
+    text: 'This dashboard pulls from TCGplayer exports and inventory data, processes it with Python, and surfaces what actually matters.',
     Icon: Code2,
     accent: 'blue' as const,
   },
   {
     label: 'The result',
-    text: 'Live sales trends, inventory value, profit per card, and reprice signals — all in one place.',
+    text: 'Live sales trends, inventory value, profit per card, and reprice signals, all in one place.',
     Icon: TrendingUp,
     accent: 'green' as const,
   },

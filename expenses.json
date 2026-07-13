@@ -1,0 +1,240 @@
+{
+  "summary": {
+    "periods": [
+      "April",
+      "May",
+      "June",
+      "July"
+    ],
+    "total_cogs": 13252.68,
+    "total_misc": 1911.97,
+    "total_expenses": 15164.65,
+    "cogs_by_type": {
+      "Whatnot": 3248.97,
+      "Bandai": 3243.73,
+      "Local": 3227.16,
+      "PC/Trades": 1986.0,
+      "Grading": 149.0,
+      "Tcgplayer": 416.13,
+      "Tournament": 315.0
+    },
+    "misc_by_type": {
+      "Travel": 903.83,
+      "Equipment": 467.93,
+      "Shipping": 285.21,
+      "Supplies": 255.0
+    },
+    "by_period": {
+      "April": {
+        "cogs": 3911.21,
+        "misc": 191.01,
+        "total": 4102.22
+      },
+      "May": {
+        "cogs": 5941.02,
+        "misc": 542.38,
+        "total": 6483.4
+      },
+      "June": {
+        "cogs": 1893.8,
+        "misc": 1048.83,
+        "total": 2942.63
+      },
+      "July": {
+        "cogs": 1506.65,
+        "misc": 129.75,
+        "total": 1636.4
+      }
+    }
+  },
+  "cogs": [
+    {
+      "period": "May",
+      "type": "Whatnot",
+      "item": "Whatnot buys",
+      "amount": 2927.74
+    },
+    {
+      "period": "May",
+      "type": "Bandai",
+      "item": "Bandai",
+      "amount": 816.14
+    },
+    {
+      "period": "May",
+      "type": "Local",
+      "item": "Locals",
+      "amount": 2006.66
+    },
+    {
+      "period": "May",
+      "type": "Tcgplayer",
+      "item": "Tcgplayer",
+      "amount": 190.48
+    },
+    {
+      "period": "June",
+      "type": "Grading",
+      "item": "PSA grading",
+      "amount": 149.0
+    },
+    {
+      "period": "June",
+      "type": "Bandai",
+      "item": "PBandai",
+      "amount": 283.11
+    },
+    {
+      "period": "June",
+      "type": "Tournament",
+      "item": "Tournament pull",
+      "amount": 315.0
+    },
+    {
+      "period": "June",
+      "type": "PC/Trades",
+      "item": "From PC",
+      "amount": 400.0
+    },
+    {
+      "period": "June",
+      "type": "Local",
+      "item": "Jonathan",
+      "amount": 80.0
+    },
+    {
+      "period": "April",
+      "type": "Bandai",
+      "item": "Bandai",
+      "amount": 1840.48
+    },
+    {
+      "period": "April",
+      "type": "Local",
+      "item": "Locals",
+      "amount": 811.5
+    },
+    {
+      "period": "April",
+      "type": "Local",
+      "item": "Jonyokubo",
+      "amount": 47.0
+    },
+    {
+      "period": "April",
+      "type": "Tcgplayer",
+      "item": "Tcgplayer",
+      "amount": 100.0
+    },
+    {
+      "period": "April",
+      "type": "Whatnot",
+      "item": "Whatnot buys",
+      "amount": 97.23
+    },
+    {
+      "period": "April",
+      "type": "PC/Trades",
+      "item": "PC",
+      "amount": 1015.0
+    },
+    {
+      "period": "July",
+      "type": "Whatnot",
+      "item": "Whatnot buys",
+      "amount": 224.0
+    },
+    {
+      "period": "July",
+      "type": "Local",
+      "item": "Local",
+      "amount": 282.0
+    },
+    {
+      "period": "July",
+      "type": "Tcgplayer",
+      "item": "Tcgplayer",
+      "amount": 125.65
+    },
+    {
+      "period": "July",
+      "type": "Bandai",
+      "item": "Bandai",
+      "amount": 106.0
+    },
+    {
+      "period": "July",
+      "type": "Bandai",
+      "item": "PBandai",
+      "amount": 198.0
+    },
+    {
+      "period": "July",
+      "type": "PC/Trades",
+      "item": "PC",
+      "amount": 571.0
+    }
+  ],
+  "misc": [
+    {
+      "period": "May",
+      "type": "Shipping",
+      "item": "Shipping",
+      "amount": 205.1
+    },
+    {
+      "period": "May",
+      "type": "Equipment",
+      "item": "Microcenter",
+      "amount": 337.28
+    },
+    {
+      "period": "June",
+      "type": "Supplies",
+      "item": "Supplies",
+      "amount": 145.0
+    },
+    {
+      "period": "June",
+      "type": "Travel",
+      "item": "Airbnb / Travel",
+      "amount": 790.41
+    },
+    {
+      "period": "June",
+      "type": "Travel",
+      "item": "Regional tournament",
+      "amount": 113.42
+    },
+    {
+      "period": "April",
+      "type": "Shipping",
+      "item": "Shipping",
+      "amount": 40.36
+    },
+    {
+      "period": "April",
+      "type": "Supplies",
+      "item": "Shipping supply",
+      "amount": 20.0
+    },
+    {
+      "period": "April",
+      "type": "Equipment",
+      "item": "Microcenter",
+      "amount": 130.65
+    },
+    {
+      "period": "July",
+      "type": "Shipping",
+      "item": "Shipping",
+      "amount": 39.75
+    },
+    {
+      "period": "July",
+      "type": "Supplies",
+      "item": "Supplies",
+      "amount": 90.0
+    }
+  ]
+}
